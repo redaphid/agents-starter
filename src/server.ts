@@ -14,20 +14,32 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { processToolCalls } from "./utils";
 import { tools, executions } from "./tools";
 
-// Configure for Ollama - local AI inference
+// Configurable AI provider setup
+const AI_PROVIDER = process.env.AI_PROVIDER || "ollama"; // "ollama" or "openai"
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3.2:latest";
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o";
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434/v1";
+
+// Initialize providers
 const ollama = createOpenAI({
   apiKey: "ollama", // Ollama doesn't require a real API key
-  baseURL: "http://localhost:11434/v1", // Default Ollama API endpoint
+  baseURL: OLLAMA_BASE_URL,
 });
 
-// Use a model available in Ollama that supports tools
-const model = ollama("llama3.2:latest"); // Supports tools and function calling
+const openaiClient = createOpenAI({
+  apiKey: process.env.OPENAI_API_KEY || "",
+});
 
-// Fallback to OpenAI if OPENAI_API_KEY is provided
-// const openaiClient = createOpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-// const model = process.env.OPENAI_API_KEY ? openaiClient("gpt-4o") : ollama("deepseek-r1:8b");
+// Select model based on configuration
+const model = (() => {
+  if (AI_PROVIDER === "openai" && process.env.OPENAI_API_KEY) {
+    console.log(`🤖 Using OpenAI model: ${OPENAI_MODEL}`);
+    return openaiClient(OPENAI_MODEL);
+  } else {
+    console.log(`🦙 Using Ollama model: ${OLLAMA_MODEL} at ${OLLAMA_BASE_URL}`);
+    return ollama(OLLAMA_MODEL);
+  }
+})();
 
 /**
  * Chat Agent implementation that handles real-time AI chat interactions

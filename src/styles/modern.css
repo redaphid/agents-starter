@@ -12,33 +12,33 @@
 
 @layer base {
   :root {
-    /* Opalescent artistic color scheme */
-    --hue-primary: 280; /* Violet */
-    --hue-secondary: 200; /* Cyan */ 
-    --hue-tertiary: 45; /* Golden */
-    --hue-accent: 330; /* Magenta */
+    /* Refined opalescent color scheme - toned down for readability */
+    --hue-primary: 250; /* Blue-violet (less pink) */
+    --hue-secondary: 190; /* Cyan-blue */ 
+    --hue-tertiary: 50; /* Warm gold */
+    --hue-accent: 300; /* Purple (reduced pink) */
     
-    /* Opalescent white center for readability */
-    --opal-white: oklch(96% 0.015 var(--hue-primary)); /* Barely tinted white */
-    --opal-light: oklch(92% 0.025 var(--hue-secondary)); /* Light opalescent */
-    --opal-mid: oklch(85% 0.04 var(--hue-tertiary)); /* Medium opalescent */
+    /* Opalescent whites - very subtle tinting */
+    --opal-white: oklch(97% 0.008 var(--hue-primary)); /* Nearly pure white */
+    --opal-light: oklch(94% 0.012 var(--hue-secondary)); /* Barely tinted */
+    --opal-mid: oklch(90% 0.018 var(--hue-tertiary)); /* Subtle opalescent */
     
-    /* Edge colors for gradients */
-    --edge-violet: oklch(65% 0.15 var(--hue-primary));
-    --edge-cyan: oklch(70% 0.12 var(--hue-secondary));
-    --edge-gold: oklch(75% 0.13 var(--hue-tertiary));
-    --edge-magenta: oklch(68% 0.14 var(--hue-accent));
+    /* Much softer edge colors */
+    --edge-violet: oklch(75% 0.06 var(--hue-primary)); /* Soft blue-violet */
+    --edge-cyan: oklch(80% 0.05 var(--hue-secondary)); /* Gentle cyan */
+    --edge-gold: oklch(85% 0.04 var(--hue-tertiary)); /* Warm but soft */
+    --edge-purple: oklch(78% 0.05 var(--hue-accent)); /* Soft purple */
     
     /* Background system */
-    --bg-dark: oklch(8% 0.02 var(--hue-primary)); /* Deep background */
-    --text: oklch(20% 0.05 var(--hue-primary)); /* Dark text on light */
-    --text-dim: oklch(45% 0.03 var(--hue-secondary)); /* Muted text */
-    --text-light: oklch(94% 0.02 var(--hue-primary)); /* Light text on dark */
+    --bg-dark: oklch(12% 0.015 var(--hue-primary)); /* Subtle dark */
+    --text: oklch(25% 0.02 var(--hue-primary)); /* Dark readable text */
+    --text-dim: oklch(50% 0.015 var(--hue-secondary)); /* Muted but readable */
+    --text-light: oklch(95% 0.01 var(--hue-primary)); /* Light text */
     
-    /* Glow effects */
-    --glow-soft: oklch(from var(--edge-violet) l c h / 0.2);
-    --glow-accent: oklch(from var(--edge-cyan) l c h / 0.3);
-    --glow-warm: oklch(from var(--edge-gold) l c h / 0.25);
+    /* Gentle glow effects */
+    --glow-soft: oklch(from var(--edge-violet) l c h / 0.08);
+    --glow-accent: oklch(from var(--edge-cyan) l c h / 0.12);
+    --glow-warm: oklch(from var(--edge-gold) l c h / 0.1);
     
     /* Fluid spacing using modern units */
     --space-xs: 0.5rem;
@@ -58,13 +58,13 @@
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     background: 
-      /* Opalescent rainbow gradients */
-      radial-gradient(circle at 15% 15%, var(--edge-violet), transparent 45%),
-      radial-gradient(circle at 85% 15%, var(--edge-cyan), transparent 45%),
-      radial-gradient(circle at 85% 85%, var(--edge-gold), transparent 45%),
-      radial-gradient(circle at 15% 85%, var(--edge-magenta), transparent 45%),
-      /* Base gradient from dark edges to light center */
-      radial-gradient(ellipse at center, var(--opal-light) 0%, var(--bg-dark) 100%);
+      /* Very subtle opalescent corner hints */
+      radial-gradient(circle at 20% 20%, var(--edge-violet), transparent 65%),
+      radial-gradient(circle at 80% 20%, var(--edge-cyan), transparent 65%),
+      radial-gradient(circle at 80% 80%, var(--edge-gold), transparent 65%),
+      radial-gradient(circle at 20% 80%, var(--edge-purple), transparent 65%),
+      /* Gentle center-to-edge gradient */
+      radial-gradient(ellipse at center, var(--opal-white) 30%, var(--opal-light) 70%, var(--bg-dark) 100%);
     color: var(--text);
     overflow: hidden;
   }
@@ -120,63 +120,90 @@
     container-type: size;
     
     background: 
-      /* Opalescent edges fading to white center */
-      radial-gradient(circle at 0% 0%, var(--edge-violet), transparent 40%),
-      radial-gradient(circle at 100% 0%, var(--edge-cyan), transparent 40%),
-      radial-gradient(circle at 100% 100%, var(--edge-gold), transparent 40%),
-      radial-gradient(circle at 0% 100%, var(--edge-magenta), transparent 40%),
-      /* Central white area for readability */
-      radial-gradient(ellipse 60% 80% at center, var(--opal-white) 0%, transparent 100%);
+      /* Very subtle corner opalescence */
+      radial-gradient(circle at 5% 5%, var(--edge-violet), transparent 60%),
+      radial-gradient(circle at 95% 5%, var(--edge-cyan), transparent 60%),
+      radial-gradient(circle at 95% 95%, var(--edge-gold), transparent 60%),
+      radial-gradient(circle at 5% 95%, var(--edge-purple), transparent 60%),
+      /* Clean white center with gentle falloff */
+      radial-gradient(ellipse 70% 85% at center, var(--opal-white) 0%, var(--opal-light) 70%, transparent 100%);
     
-    border: 1px solid oklch(from var(--edge-violet) calc(l + 0.1) calc(c * 0.6) h / 0.3);
+    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.3) h / 0.2);
     border-radius: 16px;
     box-shadow: 
-      0 8px 32px oklch(from var(--edge-violet) calc(l - 0.3) c h / 0.1),
-      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8);
+      0 4px 20px oklch(from var(--bg-dark) l c h / 0.06),
+      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.9);
     
     max-height: 100dvh;
     min-height: 0;
     position: relative;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
   }
   
-  /* Subtle corner accents */
+  /* Opalescent corner "eyes" */
   .chat-container::before,
   .chat-container::after {
     content: '';
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--edge-gold), transparent 70%);
+    background: 
+      /* Multi-layer opalescent effect */
+      radial-gradient(circle at 25% 25%,
+        oklch(90% 0.2 60) 0%,
+        oklch(80% 0.3 120) 20%,
+        oklch(70% 0.35 180) 40%,
+        oklch(60% 0.3 240) 60%,
+        oklch(50% 0.2 300) 80%,
+        oklch(25% 0.1 330) 100%
+      );
+    box-shadow: 
+      0 0 8px oklch(70% 0.3 180 / 0.3),
+      inset 0 1px 1px oklch(95% 0.1 0 / 0.7),
+      inset 0 -1px 1px oklch(25% 0.1 330 / 0.5);
+    animation: cornerGems 6s ease-in-out infinite;
   }
   
   .chat-container::before {
     top: 12px;
     left: 12px;
+    animation-delay: 0s;
   }
   
   .chat-container::after {
     bottom: 12px;
     right: 12px;
+    animation-delay: 2s;
+  }
+  
+  @keyframes cornerGems {
+    0%, 100% { 
+      transform: scale(1);
+      filter: hue-rotate(0deg) saturate(1);
+    }
+    50% { 
+      transform: scale(1.15);
+      filter: hue-rotate(180deg) saturate(1.3);
+    }
   }
 
   .chat-header {
     padding: var(--space-md);
     background: 
-      /* Opalescent header gradient */
+      /* Subtle opalescent header */
       linear-gradient(135deg, 
         var(--edge-violet) 0%,
-        var(--opal-mid) 25%,
+        var(--opal-light) 30%,
         var(--opal-white) 50%,
-        var(--opal-mid) 75%,
+        var(--opal-light) 70%,
         var(--edge-cyan) 100%
       );
     border-radius: 12px;
-    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.4) h / 0.4);
+    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.2) h / 0.3);
     box-shadow: 
-      0 4px 16px oklch(from var(--edge-violet) calc(l - 0.4) c h / 0.1),
-      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.6);
+      0 2px 8px oklch(from var(--bg-dark) l c h / 0.04),
+      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8);
     
     font-family: inherit;
     font-weight: 600;
@@ -187,23 +214,49 @@
     overflow: hidden;
   }
   
-  /* Subtle animated accent */
+  /* Opalescent "eye" status indicator */
   .chat-header::before {
     content: '';
     position: absolute;
     top: 50%;
     right: 12px;
-    width: 6px;
-    height: 6px;
-    background: radial-gradient(circle, var(--edge-gold), var(--edge-magenta));
+    width: 14px;
+    height: 14px;
+    background: 
+      /* Inner iris with rainbow reflection */
+      radial-gradient(circle at 30% 30%, 
+        oklch(95% 0.3 0) 0%,
+        oklch(85% 0.25 60) 15%,
+        oklch(75% 0.3 120) 30%,
+        oklch(70% 0.35 180) 45%,
+        oklch(65% 0.3 240) 60%,
+        oklch(60% 0.25 300) 75%,
+        oklch(20% 0.1 270) 100%
+      ),
+      /* Outer rim */
+      radial-gradient(circle, transparent 60%, oklch(40% 0.15 250) 70%, oklch(20% 0.1 270) 100%);
     border-radius: 50%;
-    box-shadow: 0 0 8px var(--glow-warm);
-    animation: pulse 3s ease-in-out infinite;
+    box-shadow: 
+      0 0 12px oklch(70% 0.3 180 / 0.4),
+      inset 0 1px 2px oklch(95% 0.1 0 / 0.8),
+      inset 0 -1px 1px oklch(20% 0.1 270 / 0.6);
+    animation: opalEye 4s ease-in-out infinite;
+    transform: translateY(-50%);
   }
   
-  @keyframes pulse {
-    0%, 100% { opacity: 0.8; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.2); }
+  @keyframes opalEye {
+    0%, 100% { 
+      transform: translateY(-50%) scale(1);
+      filter: hue-rotate(0deg) brightness(1);
+    }
+    33% { 
+      transform: translateY(-50%) scale(1.1);
+      filter: hue-rotate(60deg) brightness(1.2);
+    }
+    66% { 
+      transform: translateY(-50%) scale(1.05);
+      filter: hue-rotate(120deg) brightness(1.1);
+    }
   }
 
   .messages-area {
@@ -224,28 +277,26 @@
     gap: var(--space-sm);
     padding: var(--space-md);
     background: 
-      /* Opalescent input area */
-      radial-gradient(ellipse at left, var(--edge-violet), transparent 50%),
-      radial-gradient(ellipse at right, var(--edge-cyan), transparent 50%),
-      radial-gradient(ellipse 80% 60% at center, var(--opal-white) 0%, transparent 100%);
+      /* Gentle opalescent input area */
+      radial-gradient(ellipse at left, var(--edge-violet), transparent 70%),
+      radial-gradient(ellipse at right, var(--edge-cyan), transparent 70%),
+      radial-gradient(ellipse 85% 70% at center, var(--opal-white) 0%, var(--opal-light) 100%);
     border-radius: 16px;
-    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.3) h / 0.4);
+    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.15) h / 0.3);
     box-shadow: 
-      0 -4px 20px oklch(from var(--edge-violet) calc(l - 0.4) c h / 0.06),
-      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.6);
+      0 -2px 12px oklch(from var(--bg-dark) l c h / 0.02),
+      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8);
     
     position: sticky;
     bottom: 0;
     flex-shrink: 0;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
   }
 
   .message-input {
     flex: 1;
-    background: 
-      /* Subtle opalescent input background */
-      radial-gradient(ellipse at top, var(--opal-light), var(--opal-white) 60%);
-    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.2) h / 0.4);
+    background: var(--opal-white);
+    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.1) h / 0.3);
     border-radius: 12px;
     color: var(--text);
     font-size: var(--text-base);
@@ -262,11 +313,34 @@
 
     &:focus {
       outline: none;
-      border-color: oklch(from var(--edge-cyan) l calc(c * 0.6) h / 0.6);
-      box-shadow: 
-        0 0 0 2px oklch(from var(--edge-cyan) l c h / 0.2),
-        0 0 16px var(--glow-accent);
+      border-color: oklch(from var(--edge-cyan) l calc(c * 0.3) h / 0.5);
       background: var(--opal-white);
+      position: relative;
+    }
+    
+    /* Opalescent focus ring */
+    &:focus::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: inherit;
+      background: 
+        conic-gradient(from 0deg,
+          oklch(80% 0.25 0) 0deg,
+          oklch(80% 0.25 72) 72deg,
+          oklch(80% 0.25 144) 144deg,
+          oklch(80% 0.25 216) 216deg,
+          oklch(80% 0.25 288) 288deg,
+          oklch(80% 0.25 0) 360deg
+        );
+      z-index: -1;
+      animation: focusRing 2s linear infinite;
+    }
+    
+    @keyframes focusRing {
+      0% { transform: rotate(0deg); opacity: 0.4; }
+      50% { opacity: 0.7; }
+      100% { transform: rotate(360deg); opacity: 0.4; }
     }
   }
 
@@ -380,10 +454,44 @@
     box-shadow: 0 0 20px var(--glow-orange);
   }
   
+  .hover-glow {
+    position: relative;
+    transition: all 300ms ease;
+  }
+  
   .hover-glow:hover {
-    box-shadow: 0 0 15px var(--glow-cyan);
     transform: translateY(-1px);
-    transition: all 200ms ease;
+  }
+  
+  /* Opalescent hover effect */
+  .hover-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: 
+      conic-gradient(from 0deg,
+        oklch(75% 0.3 0) 0deg,
+        oklch(75% 0.3 60) 60deg,
+        oklch(75% 0.3 120) 120deg,
+        oklch(75% 0.3 180) 180deg,
+        oklch(75% 0.3 240) 240deg,
+        oklch(75% 0.3 300) 300deg,
+        oklch(75% 0.3 0) 360deg
+      );
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 300ms ease;
+    animation: opalSpin 3s linear infinite;
+  }
+  
+  .hover-glow:hover::before {
+    opacity: 0.6;
+  }
+  
+  @keyframes opalSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
   .float-animation {
@@ -406,24 +514,24 @@
   
   .message-user {
     background: 
-      /* User messages: cyan-violet opalescent fade to white */
-      radial-gradient(ellipse at top left, var(--edge-cyan), transparent 60%),
-      radial-gradient(ellipse at bottom right, var(--edge-violet), transparent 60%),
-      radial-gradient(ellipse 70% 60% at center, var(--opal-white) 0%, transparent 100%);
-    border: 1px solid oklch(from var(--edge-cyan) l calc(c * 0.4) h / 0.3);
+      /* User messages: subtle cyan-violet hints on white */
+      radial-gradient(ellipse at top left, var(--edge-cyan), transparent 80%),
+      radial-gradient(ellipse at bottom right, var(--edge-violet), transparent 80%),
+      radial-gradient(ellipse 80% 70% at center, var(--opal-white) 0%, var(--opal-light) 100%);
+    border: 1px solid oklch(from var(--edge-cyan) l calc(c * 0.2) h / 0.2);
     margin-left: 15%;
-    box-shadow: 0 4px 16px oklch(from var(--edge-cyan) calc(l - 0.4) c h / 0.08);
+    box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
   }
   
   .message-assistant {
     background: 
-      /* Assistant messages: gold-magenta opalescent fade to white */
-      radial-gradient(ellipse at top left, var(--edge-gold), transparent 60%),
-      radial-gradient(ellipse at bottom right, var(--edge-magenta), transparent 60%),
-      radial-gradient(ellipse 70% 60% at center, var(--opal-white) 0%, transparent 100%);
-    border: 1px solid oklch(from var(--edge-gold) l calc(c * 0.4) h / 0.3);
+      /* Assistant messages: subtle gold-purple hints on white */
+      radial-gradient(ellipse at top left, var(--edge-gold), transparent 80%),
+      radial-gradient(ellipse at bottom right, var(--edge-purple), transparent 80%),
+      radial-gradient(ellipse 80% 70% at center, var(--opal-white) 0%, var(--opal-light) 100%);
+    border: 1px solid oklch(from var(--edge-gold) l calc(c * 0.2) h / 0.2);
     margin-right: 15%;
-    box-shadow: 0 4px 16px oklch(from var(--edge-gold) calc(l - 0.4) c h / 0.08);
+    box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
   }
   
   .message-assistant::before {
