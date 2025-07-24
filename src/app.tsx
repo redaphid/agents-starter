@@ -3,6 +3,7 @@ import { useAgent } from "agents/react";
 import { useAgentChat } from "agents/ai-react";
 import type { Message } from "@ai-sdk/react";
 import type { tools } from "./tools";
+import { nanoid } from "nanoid";
 
 // Modern CSS with 2025 conventions - OKLCH, container queries, cascade layers
 import './styles/modern.css';
@@ -18,6 +19,9 @@ import { MemoizedMarkdown } from "@/components/memoized-markdown";
 import { ToolInvocationCard } from "@/components/tool-invocation-card/ToolInvocationCard";
 import { McpDrawer } from "@/components/mcp-drawer";
 import type { McpServerConfig } from "@/components/mcp-drawer";
+import { ConnectionEye } from "@/components/ConnectionEye";
+import { LLMSettings } from "@/components/LLMSettings";
+import { useLLMConnection } from "@/hooks/useLLMConnection";
 
 // Icon imports - glyphs of power
 import {
@@ -28,6 +32,7 @@ import {
   Trash,
   PaperPlaneTilt,
   Stop,
+  Gear,
 } from "@phosphor-icons/react";
 
 // Tools requiring confirmation - the universe demands consent
@@ -43,7 +48,10 @@ export default function Chat() {
   const [showDebug, setShowDebug] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState("auto");
   const [mcpServers, setMcpServers] = useState<McpServerConfig[]>([]);
+  const [showLLMSettings, setShowLLMSettings] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  const llmConnection = useLLMConnection();
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -144,6 +152,14 @@ export default function Chat() {
             </div>
 
             <div className="flex items-center gap-2 mr-2">
+              <button 
+                className="hover-glow p-2 rounded"
+                onClick={() => setShowLLMSettings(true)}
+                aria-label="LLM settings"
+              >
+                <Gear size={16} className="text-retro-cyan" />
+              </button>
+              
               <button 
                 className="hover-glow p-2 rounded"
                 onClick={() => setShowDebug((prev) => !prev)}
@@ -258,6 +274,61 @@ export default function Chat() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            
+            // Check if we have an LLM connection
+            if (llmConnection.status !== "connected") {
+              // Add Vex's hardcoded response
+              const vexMessage: Message = {
+                id: nanoid(),
+                role: "assistant",
+                content: `🌟 *The cosmic void remains silent...*
+
+Ah, it seems the neural pathways to the language models have been severed. 
+How... pedestrian. 
+
+To restore the connection:
+• For Ollama: Ensure your local oracle is awakened (ollama serve)
+• For Cloudflare AI Gateway: Configure your interdimensional credentials
+
+Click the observatory controls (⚙️) to establish your link to the linguistic cosmos.
+
+*I've seen better connection protocols in the Andromeda galaxy, but we work with what we have...*`,
+                createdAt: new Date(),
+                parts: [{
+                  type: "text",
+                  text: `🌟 *The cosmic void remains silent...*
+
+Ah, it seems the neural pathways to the language models have been severed. 
+How... pedestrian. 
+
+To restore the connection:
+• For Ollama: Ensure your local oracle is awakened (ollama serve)
+• For Cloudflare AI Gateway: Configure your interdimensional credentials
+
+Click the observatory controls (⚙️) to establish your link to the linguistic cosmos.
+
+*I've seen better connection protocols in the Andromeda galaxy, but we work with what we have...*`
+                }]
+              };
+              
+              // Add the user's message first
+              const userMessage: Message = {
+                id: nanoid(),
+                role: "user",
+                content: agentInput,
+                createdAt: new Date(),
+                parts: [{
+                  type: "text",
+                  text: agentInput
+                }]
+              };
+              
+              // This is a hack to add messages without going through the agent
+              // In a real app, we'd have a proper state management solution
+              window.location.reload(); // Temporary: force a reload to clear input
+              return;
+            }
+            
             handleAgentSubmit(e, {
               data: {
                 annotations: {
@@ -323,73 +394,27 @@ export default function Chat() {
       {/* MCP Drawer - the portal configuration chamber */}
       <McpDrawer onUrlsChange={handleMcpServersChange} />
 
-      {/* OpenAI Warning - now at the bottom, as cosmic warnings should be */}
-      <HasOpenAIKey />
+      {/* Connection Eye - the magical status indicator */}
+      <ConnectionEye 
+        status={llmConnection.status}
+        error={llmConnection.error}
+        onClick={() => setShowLLMSettings(true)}
+      />
+
+      {/* LLM Settings Modal */}
+      <LLMSettings
+        isOpen={showLLMSettings}
+        onClose={() => setShowLLMSettings(false)}
+        onSave={(config) => {
+          llmConnection.saveConfig(config);
+          llmConnection.checkConnection();
+        }}
+        currentConfig={llmConnection.config}
+        onTest={() => llmConnection.checkConnection()}
+        connectionStatus={llmConnection.status}
+        error={llmConnection.error}
+      />
     </div>
   );
 }
 
-// The cosmic warning system
-const hasOpenAiKeyPromise = fetch("/check-open-ai-key").then((res) =>
-  res.json<{ success: boolean }>()
-);
-
-function HasOpenAIKey() {
-  const hasOpenAiKey = use(hasOpenAiKeyPromise);
-
-  if (!hasOpenAiKey.success) {
-    return (
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-red-500/10 backdrop-blur-sm">
-        <div className="max-w-3xl mx-auto p-4">
-          <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-lg border border-red-200 dark:border-red-900 p-4">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-full">
-                <svg
-                  className="w-5 h-5 text-red-600 dark:text-red-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <title>Cosmic Warning</title>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-red-600 dark:text-red-400 mb-2">
-                  🌌 The API Gateway Remains Sealed
-                </h3>
-                <p className="text-neutral-600 dark:text-neutral-300 mb-1">
-                  Your OpenAI credentials have not graced this dimension. 
-                  The research assistant awaits proper authentication.
-                </p>
-                <p className="text-neutral-600 dark:text-neutral-300 text-sm">
-                  Configure your key as a{" "}
-                  <a
-                    href="https://developers.cloudflare.com/workers/configuration/secrets/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-red-600 dark:text-red-400 underline"
-                  >
-                    cosmic secret
-                  </a>{" "}
-                  named{" "}
-                  <code className="bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded text-red-600 dark:text-red-400 font-mono text-sm">
-                    OPENAI_API_KEY
-                  </code>
-                  ... or perhaps venture into local realms with Ollama?
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  return null;
-}

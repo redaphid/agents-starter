@@ -2,6 +2,10 @@
 
 @layer components {
   .drawer-content {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    width: 300px;
     height: 100%;
     padding: var(--space-lg);
     background: color-mix(in oklch, var(--surface) 90%, var(--primary) 10%);
@@ -13,6 +17,7 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--accent-dim) transparent;
+    z-index: 1000;
   }
 
   .drawer-content.open {

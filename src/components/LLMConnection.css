@@ -1,0 +1,224 @@
+.llm-connection-container {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  max-width: 500px;
+}
+
+.llm-connection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.llm-connection-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.status-icon.connected {
+  color: #22c55e;
+}
+
+.status-icon.disconnected {
+  color: #ef4444;
+}
+
+.status-icon.spinning {
+  color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.provider-selector {
+  margin-bottom: 1rem;
+}
+
+.provider-selector label,
+.config-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.select-container {
+  position: relative;
+}
+
+.select-container select {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  appearance: none;
+  cursor: pointer;
+}
+
+.select-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.config-field {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.config-field input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.config-field input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.model-input-container {
+  position: relative;
+  display: flex;
+}
+
+.model-input-container input {
+  flex: 1;
+  padding-right: 2.5rem;
+}
+
+.model-dropdown-toggle {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.model-dropdown-toggle:hover {
+  color: var(--text-primary);
+}
+
+.model-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin-top: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.model-option {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.model-option:hover {
+  background-color: var(--background-secondary);
+}
+
+.test-connection-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.test-connection-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.test-connection-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-message,
+.success-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.error-message {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #dc2626;
+}
+
+.success-message {
+  background-color: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #16a34a;
+}
+
+.error-details,
+.success-details {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  opacity: 0.9;
+}
+
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+}
