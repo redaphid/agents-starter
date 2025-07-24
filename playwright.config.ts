@@ -16,14 +16,9 @@ export default defineConfig({
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'on', // Always take screenshots
-    video: 'retain-on-failure', // Also capture video on failures
+    video: 'on', // Always capture video
     headless: true, // Always run headless by default
-    // Take periodic screenshots during tests
-    contextOptions: {
-      recordVideo: {
-        dir: './tmp/screenshots/videos',
-      },
-    },
+    // Video settings will be configured per test
   },
   projects: [
     {

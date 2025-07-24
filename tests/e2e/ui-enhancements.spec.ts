@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { startPeriodicScreenshots } from './helpers/screenshot-helper'
+import { takeScreenshot } from './helpers/test-artifacts'
 
 test.describe('UI Enhancements Check', () => {
   test.beforeEach(async ({ page }) => {
@@ -9,7 +10,7 @@ test.describe('UI Enhancements Check', () => {
 
   test('captures enhanced UI with animations', async ({ page }) => {
     // Start periodic screenshots
-    const stopScreenshots = await startPeriodicScreenshots(page, 'ui-animations', 1000)
+    const stopScreenshots = await startPeriodicScreenshots(page, 'enhanced-ui', 'ui-animations', 1000)
     // Check CSS animations are loaded
     const animationsCSS = await page.evaluate(() => {
       const styles = Array.from(document.styleSheets)
@@ -29,10 +30,7 @@ test.describe('UI Enhancements Check', () => {
     await input.fill('Show me the magic of streaming text!')
     
     // Screenshot before sending
-    await page.screenshot({ 
-      path: './tmp/screenshots/enhanced-1-ready-to-send.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'enhanced-ui', 'ready-to-send')
     
     await input.press('Enter')
     
@@ -40,16 +38,12 @@ test.describe('UI Enhancements Check', () => {
     await page.waitForSelector('.message-user', { timeout: 5000 })
     
     // Screenshot user message with animation
-    await page.screenshot({ 
-      path: './tmp/screenshots/enhanced-2-user-message.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'enhanced-ui', 'user-message')
     
     // Check if loading button has pulse animation
     const loadingButton = page.locator('.send-button-loading')
     if (await loadingButton.isVisible()) {
-      await page.screenshot({ 
-        path: './tmp/screenshots/enhanced-3-loading-pulse.png',
+      await takeScreenshot(page, 'enhanced-ui', 'loading-pulse', {
         clip: { x: 0, y: 400, width: 1280, height: 200 }
       })
     }
@@ -58,10 +52,7 @@ test.describe('UI Enhancements Check', () => {
     await page.waitForTimeout(2000)
     
     // Final screenshot
-    await page.screenshot({ 
-      path: './tmp/screenshots/enhanced-4-final-state.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'enhanced-ui', 'final-state')
     
     // Stop periodic screenshots
     stopScreenshots()
@@ -84,10 +75,7 @@ test.describe('UI Enhancements Check', () => {
     )
     expect(scrollBehavior).toBe('smooth')
     
-    await page.screenshot({ 
-      path: './tmp/screenshots/enhanced-5-smooth-scroll.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'enhanced-ui', 'smooth-scroll')
   })
 
   test('checks hover effects', async ({ page }) => {
@@ -108,9 +96,6 @@ test.describe('UI Enhancements Check', () => {
     )
     expect(transform).not.toBe('none')
     
-    await page.screenshot({ 
-      path: './tmp/screenshots/enhanced-6-hover-effect.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'enhanced-ui', 'hover-effect')
   })
 })

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { takeScreenshot } from './helpers/test-artifacts'
 
 test.describe('Visual Regression - Chat UI', () => {
   test.beforeEach(async ({ page }) => {
@@ -9,10 +10,7 @@ test.describe('Visual Regression - Chat UI', () => {
 
   test('captures initial state', async ({ page }) => {
     // Screenshot 1: Current state (may have messages from previous tests)
-    await page.screenshot({ 
-      path: './tmp/screenshots/1-current-state.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'visual-regression', 'current-state')
     
     // Check if we have the welcome screen or messages
     const messageCount = await page.locator('.message-card').count()
@@ -33,8 +31,7 @@ test.describe('Visual Regression - Chat UI', () => {
     const input = page.getByPlaceholder('Transmit to research station...')
     
     // Screenshot 2: Empty input
-    await page.screenshot({ 
-      path: './tmp/screenshots/2-empty-input.png',
+    await takeScreenshot(page, 'visual-regression', 'empty-input', {
       clip: { x: 0, y: 400, width: 1280, height: 200 }
     })
     
@@ -42,8 +39,7 @@ test.describe('Visual Regression - Chat UI', () => {
     await input.fill('Hello, this is a test message')
     
     // Screenshot 3: Text entered
-    await page.screenshot({ 
-      path: './tmp/screenshots/3-text-entered.png',
+    await takeScreenshot(page, 'visual-regression', 'text-entered', {
       clip: { x: 0, y: 400, width: 1280, height: 200 }
     })
     
@@ -57,10 +53,7 @@ test.describe('Visual Regression - Chat UI', () => {
     await input.fill('Test message for visual regression')
     
     // Screenshot 4: Before sending
-    await page.screenshot({ 
-      path: './tmp/screenshots/4-before-send.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'visual-regression', 'before-send')
     
     // Send message
     await input.press('Enter')
@@ -69,46 +62,31 @@ test.describe('Visual Regression - Chat UI', () => {
     await expect(page.getByText('Test message for visual regression')).toBeVisible()
     
     // Screenshot 5: Message sent
-    await page.screenshot({ 
-      path: './tmp/screenshots/5-message-sent.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'visual-regression', 'message-sent')
     
     // Screenshot 6: Loading state (if visible)
     const stopButton = page.getByRole('button', { name: 'Stop generation' })
     if (await stopButton.isVisible()) {
-      await page.screenshot({ 
-        path: './tmp/screenshots/6-loading-state.png',
-        fullPage: true 
-      })
+      await takeScreenshot(page, 'visual-regression', 'loading-state')
     }
   })
 
   test('captures theme switching', async ({ page }) => {
     // Dark theme (default)
-    await page.screenshot({ 
-      path: './tmp/screenshots/7-dark-theme.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'visual-regression', 'dark-theme')
     
     // Switch to light theme
     await page.getByRole('button', { name: 'Toggle theme' }).click()
     await page.waitForTimeout(300) // Wait for transition
     
-    await page.screenshot({ 
-      path: './tmp/screenshots/8-light-theme.png',
-      fullPage: true 
-    })
+    await takeScreenshot(page, 'visual-regression', 'light-theme')
   })
 
   test('captures error states', async ({ page }) => {
     // OpenAI warning is visible
     const warning = page.getByText('OpenAI API Key Not Configured')
     if (await warning.isVisible()) {
-      await page.screenshot({ 
-        path: './tmp/screenshots/9-api-warning.png',
-        fullPage: true 
-      })
+      await takeScreenshot(page, 'visual-regression', 'api-warning')
     }
   })
 

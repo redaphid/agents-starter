@@ -1,22 +1,30 @@
 import { Page } from '@playwright/test'
+import { mkdirSync } from 'fs'
+import { join } from 'path'
 
 /**
  * Helper to take periodic screenshots during test execution
  */
 export async function startPeriodicScreenshots(
   page: Page,
+  category: string,
   testName: string,
   intervalMs: number = 1000
 ): Promise<() => void> {
   let screenshotIndex = 0
   let isRunning = true
+  const startTime = new Date()
 
   const captureScreenshot = async () => {
     if (!isRunning) return
     
     try {
+      const timestamp = new Date().toISOString()
+      const dir = `./tmp/screenshots/${category}/images`
+      mkdirSync(dir, { recursive: true })
+      
       await page.screenshot({
-        path: `./tmp/screenshots/periodic/${testName}-${screenshotIndex.toString().padStart(3, '0')}.png`,
+        path: join(dir, `${timestamp}_${testName}-${screenshotIndex.toString().padStart(3, '0')}.png`),
         fullPage: true,
       })
       screenshotIndex++
