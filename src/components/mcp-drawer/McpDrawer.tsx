@@ -31,6 +31,7 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
     }
   }, [])
 
+
   // Persist to the eternal storage whenever servers change
   useEffect(() => {
     localStorage.setItem('mcp-servers', JSON.stringify(servers))
@@ -66,7 +67,19 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
   }, [isOpen])
 
   const handleToggle = () => {
-    setIsOpen(!isOpen)
+    const newIsOpen = !isOpen
+    setIsOpen(newIsOpen)
+    
+    // Add/remove class to app container to activate grid columns
+    const appContainer = document.querySelector('.app-container')
+    if (appContainer) {
+      if (newIsOpen) {
+        appContainer.classList.add('drawer-open')
+      } else {
+        appContainer.classList.remove('drawer-open')
+      }
+    }
+    
     // Announce state change to screen readers - accessibility across dimensions
     const message = isOpen 
       ? 'MCP configuration drawer closed' 
@@ -75,7 +88,7 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
   }
 
   return (
-    <div className="drawer-container">
+    <>
       <button
         ref={toggleRef}
         className="drawer-toggle"
@@ -85,7 +98,6 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
         data-testid="mcp-drawer-toggle"
       >
         <span className="drawer-icon" aria-hidden="true">
-          {/* A portal icon - because we're opening gateways */}
           ⟨⟩
         </span>
       </button>
@@ -110,7 +122,7 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
           onServersChange={setServers}
         />
       </div>
-    </div>
+    </>
   )
 }
 

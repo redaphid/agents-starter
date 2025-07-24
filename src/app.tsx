@@ -391,8 +391,10 @@ Click the observatory controls (⚙️) to establish your link to the linguistic
         </form>
       </div>
 
-      {/* MCP Drawer - the portal configuration chamber */}
-      <McpDrawer onUrlsChange={handleMcpServersChange} />
+      {/* MCP Drawer - as a sibling to chat-container for proper grid layout */}
+      <div className="drawer-container">
+        <McpDrawer onUrlsChange={handleMcpServersChange} />
+      </div>
 
       {/* Connection Eye - the magical status indicator */}
       <ConnectionEye 

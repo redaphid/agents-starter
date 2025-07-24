@@ -105,10 +105,15 @@
 @layer components {
   .app-container {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 0fr; /* Chat takes full width, drawer takes no space */
     grid-template-areas: "chat drawer";
     height: 100%;
     container-type: inline-size;
+    transition: grid-template-columns 400ms ease;
+  }
+  
+  .app-container.drawer-open {
+    grid-template-columns: 1fr 380px; /* Chat shrinks, drawer gets space */
   }
 
   .chat-container {
@@ -118,7 +123,8 @@
     padding: var(--space-lg);
     gap: var(--space-md);
     container-type: size;
-    position: relative; /* For drawer handle positioning */
+    position: relative; /* For absolute positioning of drawer handle */
+    transition: transform 400ms ease; /* Animate when drawer opens */
     
     background: 
       /* Very subtle corner opalescence */
@@ -129,10 +135,12 @@
       /* Clean white center with gentle falloff */
       radial-gradient(ellipse 70% 85% at center, var(--opal-white) 0%, var(--opal-light) 70%, transparent 100%);
     
-    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.3) h / 0.2);
+    border: 2px solid oklch(from var(--edge-violet) l calc(c * 0.6) h / 0.4);
+    border-left: 3px solid oklch(from var(--edge-cyan) l calc(c * 0.8) h / 0.6); /* Stronger left border */
     border-radius: 16px;
     box-shadow: 
-      0 4px 20px oklch(from var(--bg-dark) l c h / 0.06),
+      0 4px 20px oklch(from var(--bg-dark) l c h / 0.1),
+      -4px 0 16px oklch(from var(--edge-cyan) l c h / 0.2), /* Left edge glow */
       inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.9);
     
     max-height: 100dvh;
@@ -140,6 +148,8 @@
     position: relative;
     backdrop-filter: blur(10px);
   }
+  
+  /* Remove the transform approach - grid handles layout now */
   
   /* Opalescent corner "eyes" */
   .chat-container::before,
