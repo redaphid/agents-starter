@@ -158,11 +158,31 @@ This project supports using Ollama for local AI inference instead of OpenAI. Oll
 - Consistent model behavior
 - Support for models like deepseek-r1:8b, llama2, mistral, etc.
 
-To use Ollama:
-1. Install Ollama from https://ollama.ai
-2. Pull a model: `ollama pull deepseek-r1:8b`
-3. Ensure Ollama is running: `ollama serve`
-4. Update the model configuration in `src/server.ts` (see implementation details below)
+## Using Ollama (Now Default!)
+
+This project now uses Ollama by default for local AI inference instead of OpenAI. This provides:
+- Complete data privacy (no API calls to external services)
+- No API costs
+- Consistent model behavior  
+- Support for models like deepseek-r1:8b, llama2, mistral, qwen, etc.
+
+### Setup Instructions:
+1. **Install Ollama**: Download from https://ollama.ai
+2. **Start Ollama**: `ollama serve` (runs on http://localhost:11434)
+3. **Pull a model**: `ollama pull deepseek-r1:8b` (or any model you prefer)
+4. **Start the app**: `npm start` - it will automatically connect to Ollama
+
+### Changing Models:
+Edit `src/server.ts` and change:
+```typescript
+const model = ollama("deepseek-r1:8b"); // Change this to your preferred model
+```
+
+Popular models to try:
+- `deepseek-r1:8b` - Excellent reasoning model (default)
+- `llama3.2:3b` - Fast and efficient
+- `qwen2.5-coder:7b` - Great for coding tasks
+- `mistral-nemo:12b` - Balanced performance
 
 ## Claude Code Memories
 

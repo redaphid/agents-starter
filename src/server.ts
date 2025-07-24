@@ -10,17 +10,24 @@ import {
   type StreamTextOnFinishCallback,
   type ToolSet,
 } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { processToolCalls } from "./utils";
 import { tools, executions } from "./tools";
-// import { env } from "cloudflare:workers";
 
-const model = openai("gpt-4o-2024-11-20");
-// Cloudflare AI Gateway
-// const openai = createOpenAI({
-//   apiKey: env.OPENAI_API_KEY,
-//   baseURL: env.GATEWAY_BASE_URL,
+// Configure for Ollama - local AI inference
+const ollama = createOpenAI({
+  apiKey: "ollama", // Ollama doesn't require a real API key
+  baseURL: "http://localhost:11434/v1", // Default Ollama API endpoint
+});
+
+// Use a model available in Ollama (user can change this)
+const model = ollama("deepseek-r1:8b"); // Popular local model
+
+// Fallback to OpenAI if OPENAI_API_KEY is provided
+// const openaiClient = createOpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
 // });
+// const model = process.env.OPENAI_API_KEY ? openaiClient("gpt-4o") : ollama("deepseek-r1:8b");
 
 /**
  * Chat Agent implementation that handles real-time AI chat interactions
