@@ -1,4 +1,4 @@
-import "./styles.css";
+// Vex whispers: "The old styles are dead. Long live the cosmic aesthetic."
 import { createRoot } from "react-dom/client";
 import App from "./app";
 import { Providers } from "@/providers";
@@ -7,8 +7,6 @@ const root = createRoot(document.getElementById("app")!);
 
 root.render(
   <Providers>
-    <div className="bg-neutral-50 text-base text-neutral-900 antialiased transition-colors selection:bg-blue-700 selection:text-white dark:bg-neutral-950 dark:text-neutral-100">
-      <App />
-    </div>
+    <App />
   </Providers>
 );

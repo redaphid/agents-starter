@@ -3,7 +3,7 @@ import { takeScreenshot } from './helpers/test-artifacts'
 
 test.describe('MCP Drawer - URL Management', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/')
+    await page.goto('http://localhost:5173/')
     await page.waitForSelector('[data-testid="mcp-drawer-toggle"]', { timeout: 10000 })
   })
 

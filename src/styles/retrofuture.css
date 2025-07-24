@@ -236,51 +236,74 @@
 }
 
 .drawer-toggle {
-  position: absolute;
-  left: -40px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 120px;
-  background: rgba(26, 26, 46, 0.9);
-  border: 1px solid rgba(157, 78, 221, 0.5);
-  border-right: none;
+  --size: 40px;
+  --length: 120px;
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 300px;
+  margin-block: auto;
+  inline-size: var(--size);
+  block-size: var(--length);
+  translate: 0 -50%;
+  
+  background: 
+    linear-gradient(45deg, #9d4edd30, #00f5ff30),
+    #1a1a2e;
+  border: 1px solid #9d4edd80;
+  border-inline-end: none;
   border-radius: 8px 0 0 8px;
+  
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  
+  transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: translate, filter, background;
 }
 
 .drawer-toggle:hover {
-  background: rgba(157, 78, 221, 0.2);
-  box-shadow: -10px 0 30px rgba(157, 78, 221, 0.4);
+  translate: -5px -50%;
+  filter: 
+    drop-shadow(-5px 0 20px #9d4edd)
+    drop-shadow(-5px 0 40px #00f5ff);
+  background:
+    radial-gradient(circle at 30% 50%, #9d4edd40, transparent),
+    linear-gradient(135deg, #00f5ff20, #ff006e20),
+    #1a1a2e;
 }
 
 .drawer-icon {
   color: var(--retro-cyan);
   font-size: 1.5rem;
-  transition: transform 0.3s ease;
+  transition: rotate 300ms ease;
+  filter: drop-shadow(0 0 10px currentColor);
 }
 
 .drawer-toggle[aria-expanded="true"] .drawer-icon {
-  transform: rotate(180deg);
+  rotate: 180deg;
 }
 
 .drawer-content {
   height: 100%;
-  background: rgba(26, 26, 46, 0.9);
-  border-left: 1px solid rgba(157, 78, 221, 0.5);
+  background: 
+    radial-gradient(ellipse at top, #9d4edd10, transparent),
+    linear-gradient(180deg, #1a1a2e 0%, #0a0a0f 100%);
+  border-inline-start: 1px solid #9d4edd80;
   backdrop-filter: blur(20px);
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  overflow-y: auto;
+  
+  translate: 100% 0;
+  transition: translate 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
   padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .drawer-content.open {
-  transform: translateX(0);
+  translate: 0 0;
+  box-shadow: 
+    -20px 0 40px #9d4edd40,
+    -40px 0 80px #00f5ff20;
 }
 
 /* URL List */
