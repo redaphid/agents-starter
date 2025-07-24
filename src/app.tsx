@@ -144,12 +144,13 @@ export default function Chat() {
             </div>
 
             <div className="flex items-center gap-2 mr-2">
-              <Bug size={16} className="text-retro-cyan" />
-              <Toggle
-                toggled={showDebug}
-                aria-label="Toggle debug mode"
+              <button 
+                className="hover-glow p-2 rounded"
                 onClick={() => setShowDebug((prev) => !prev)}
-              />
+                aria-label="Toggle debug mode"
+              >
+                <Bug size={16} className="text-retro-cyan" />
+              </button>
             </div>
 
             <Button
@@ -163,16 +164,13 @@ export default function Chat() {
               {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
             </Button>
 
-            <Button
-              variant="ghost"
-              size="md"
-              shape="square"
-              className="rounded-full h-9 w-9 hover-glow"
+            <button
+              className="hover-glow p-2 rounded"
               onClick={clearHistory}
               aria-label="Clear chat history"
             >
-              <Trash size={20} />
-            </Button>
+              <Trash size={16} className="text-retro-cyan" />
+            </button>
           </div>
         </div>
 
@@ -273,7 +271,7 @@ export default function Chat() {
           className="input-area"
         >
           <div className="input-wrapper">
-            <Textarea
+            <textarea
               disabled={pendingToolCallConfirmation}
               placeholder={
                 pendingToolCallConfirmation

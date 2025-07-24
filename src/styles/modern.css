@@ -12,21 +12,29 @@
 
 @layer base {
   :root {
-    /* OKLCH color system - perceptually uniform */
-    --base-hue: 270;
-    --accent-hue: 200;
+    /* Enterprise/Alien Android theme with 80s Amiga vibes */
+    --base-hue: 195; /* Cold blue-cyan */
+    --warm-hue: 25; /* Orange accent */
+    --danger-hue: 0; /* Red warning */
     
-    /* Base colors using OKLCH */
-    --bg: oklch(8% 0.05 var(--base-hue));
-    --surface: oklch(15% 0.08 var(--base-hue));
-    --text: oklch(95% 0.02 var(--base-hue));
-    --accent: oklch(70% 0.25 var(--accent-hue));
-    --primary: oklch(65% 0.3 var(--base-hue));
+    /* Main color palette using OKLCH */
+    --bg: oklch(12% 0.08 var(--base-hue)); /* Deep space black-blue */
+    --surface: oklch(18% 0.12 var(--base-hue)); /* Panel surface */
+    --surface-raised: oklch(22% 0.15 var(--base-hue)); /* Elevated elements */
+    --text: oklch(92% 0.03 var(--base-hue)); /* Cool white text */
+    --text-dim: oklch(65% 0.05 var(--base-hue)); /* Dimmed text */
     
-    /* Derived colors using color-mix */
-    --surface-hover: color-mix(in oklch, var(--surface) 80%, var(--accent) 20%);
-    --accent-dim: oklch(from var(--accent) calc(l * 0.3) c h);
-    --glow: oklch(from var(--primary) l c h / 0.3);
+    /* Accent colors */
+    --accent-cyan: oklch(75% 0.18 var(--base-hue)); /* Bright cyan */
+    --accent-orange: oklch(68% 0.22 var(--warm-hue)); /* Warm orange */
+    --accent-red: oklch(58% 0.25 var(--danger-hue)); /* Alert red */
+    
+    /* Derived colors with OKLCH math */
+    --surface-hover: oklch(from var(--surface) calc(l + 0.03) calc(c + 0.02) h);
+    --glow-cyan: oklch(from var(--accent-cyan) l c h / 0.4);
+    --glow-orange: oklch(from var(--accent-orange) l c h / 0.3);
+    --stripe-bright: oklch(85% 0.25 var(--warm-hue));
+    --stripe-dim: oklch(45% 0.15 var(--warm-hue));
     
     /* Fluid spacing using modern units */
     --space-xs: 0.5rem;
@@ -44,14 +52,38 @@
 
   html, body {
     height: 100%;
-    font-family: system-ui, sans-serif;
-    background: var(--bg);
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    background: 
+      radial-gradient(circle at 20% 80%, var(--glow-cyan), transparent 60%),
+      radial-gradient(circle at 80% 20%, var(--glow-orange), transparent 60%),
+      linear-gradient(135deg, var(--bg) 0%, oklch(from var(--bg) calc(l + 0.02) c h) 100%);
     color: var(--text);
+    overflow: hidden;
   }
 
   #app {
-    height: 100dvh; /* Dynamic viewport height */
+    height: 100dvh;
     container-type: size;
+    position: relative;
+  }
+  
+  /* Subtle scan lines for CRT effect */
+  #app::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      oklch(from var(--accent-cyan) l c h / 0.03) 2px,
+      oklch(from var(--accent-cyan) l c h / 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
   }
 }
 
@@ -73,22 +105,98 @@
     container-type: size;
     
     background: 
-      radial-gradient(circle at 30% 70%, var(--glow), transparent 50%),
-      linear-gradient(135deg, var(--surface) 0%, color-mix(in oklch, var(--surface) 95%, var(--primary) 5%) 100%);
+      /* Amiga-style stripes */
+      linear-gradient(90deg, 
+        transparent 0%, 
+        var(--stripe-dim) 1px, 
+        transparent 2px,
+        transparent 8px,
+        var(--stripe-bright) 9px,
+        transparent 10px,
+        transparent 100%
+      ),
+      /* Main surface gradient */
+      linear-gradient(145deg, 
+        var(--surface) 0%, 
+        oklch(from var(--surface) calc(l + 0.03) calc(c + 0.02) h) 50%,
+        var(--surface-raised) 100%
+      );
     
-    border-radius: var(--space-sm);
-    backdrop-filter: blur(20px);
+    border: 2px solid var(--accent-cyan);
+    border-radius: 8px;
+    box-shadow: 
+      0 0 20px var(--glow-cyan),
+      inset 0 1px 0 oklch(from var(--accent-cyan) calc(l + 0.1) c h / 0.5);
     
-    /* Ensure it never exceeds viewport */
     max-height: 100dvh;
-    min-height: 0; /* Allow flex shrinking */
+    min-height: 0;
+    position: relative;
+  }
+  
+  /* Enterprise-style corner elements */
+  .chat-container::before,
+  .chat-container::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-orange);
+  }
+  
+  .chat-container::before {
+    top: 8px;
+    left: 8px;
+    border-right: none;
+    border-bottom: none;
+  }
+  
+  .chat-container::after {
+    bottom: 8px;
+    right: 8px;
+    border-left: none;
+    border-top: none;
   }
 
   .chat-header {
     padding: var(--space-md);
-    background: color-mix(in oklch, var(--surface) 70%, transparent 30%);
-    border-radius: var(--space-xs);
-    border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent 70%);
+    background: 
+      linear-gradient(90deg, 
+        var(--surface-raised) 0%,
+        oklch(from var(--surface-raised) calc(l + 0.02) c h) 50%,
+        var(--surface-raised) 100%
+      );
+    border-radius: 4px;
+    border: 1px solid var(--accent-cyan);
+    box-shadow: 
+      0 2px 8px oklch(from var(--bg) calc(l - 0.02) c h),
+      inset 0 1px 0 oklch(from var(--accent-cyan) l c h / 0.3);
+    
+    font-family: inherit;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Animated status indicator */
+  .chat-header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-orange);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--glow-orange);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
   }
 
   .messages-area {
@@ -108,35 +216,51 @@
     display: flex;
     gap: var(--space-sm);
     padding: var(--space-md);
-    background: var(--surface-hover);
-    border-radius: var(--space-sm);
-    border: 1px solid color-mix(in oklch, var(--accent) 40%, transparent 60%);
+    background: 
+      linear-gradient(180deg,
+        oklch(from var(--surface-raised) calc(l + 0.02) c h) 0%,
+        var(--surface-raised) 100%
+      );
+    border-radius: 4px;
+    border: 1px solid var(--accent-cyan);
+    box-shadow: 
+      0 -2px 10px oklch(from var(--bg) calc(l - 0.02) c h),
+      inset 0 1px 0 oklch(from var(--accent-cyan) l c h / 0.2);
     
-    /* Always visible at bottom using modern units */
     position: sticky;
     bottom: 0;
-    
-    /* Ensure it's always accessible */
     flex-shrink: 0;
+    
+    /* Subtle glow effect */
+    box-shadow: 
+      0 0 15px var(--glow-cyan),
+      inset 0 1px 0 oklch(from var(--accent-cyan) l c h / 0.3);
   }
 
   .message-input {
     flex: 1;
-    background: transparent;
-    border: none;
+    background: oklch(from var(--bg) calc(l + 0.02) c h);
+    border: 1px solid oklch(from var(--accent-cyan) calc(l - 0.2) c h);
+    border-radius: 3px;
     color: var(--text);
     font-size: var(--text-base);
+    font-family: inherit;
+    padding: 8px 12px;
     resize: vertical;
     min-height: 2.5rem;
     max-height: 8rem;
     
     &::placeholder {
-      color: color-mix(in oklch, var(--text) 60%, transparent 40%);
+      color: var(--text-dim);
+      font-style: italic;
     }
 
     &:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
+      outline: none;
+      border-color: var(--accent-orange);
+      box-shadow: 
+        0 0 0 2px oklch(from var(--accent-orange) l c h / 0.3),
+        0 0 10px var(--glow-orange);
     }
   }
 
@@ -214,5 +338,112 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+  
+  /* Typography utilities */
+  .terminal-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text);
+    text-shadow: 0 0 10px var(--glow-cyan);
+  }
+  
+  .text-retro-cyan { color: var(--accent-cyan); }
+  .text-muted-foreground { color: var(--text-dim); }
+  
+  /* Card styles */
+  .welcome-card {
+    background: 
+      linear-gradient(135deg, 
+        var(--surface-raised) 0%,
+        oklch(from var(--surface-raised) calc(l + 0.03) c h) 100%
+      );
+    border: 2px solid var(--accent-orange);
+    border-radius: 8px;
+    padding: var(--space-xl);
+    box-shadow: 
+      0 0 30px var(--glow-orange),
+      inset 0 2px 0 oklch(from var(--accent-orange) l c h / 0.2);
+  }
+  
+  .glass-card {
+    backdrop-filter: blur(10px);
+  }
+  
+  .glow-orange {
+    box-shadow: 0 0 20px var(--glow-orange);
+  }
+  
+  .hover-glow:hover {
+    box-shadow: 0 0 15px var(--glow-cyan);
+    transform: translateY(-1px);
+    transition: all 200ms ease;
+  }
+  
+  .float-animation {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* Message styles */
+  .message {
+    margin: var(--space-md) 0;
+    padding: var(--space-md);
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .message-user {
+    background: 
+      linear-gradient(135deg,
+        oklch(from var(--accent-cyan) calc(l - 0.3) calc(c * 0.5) h) 0%,
+        oklch(from var(--accent-cyan) calc(l - 0.25) calc(c * 0.6) h) 100%
+      );
+    border: 1px solid oklch(from var(--accent-cyan) calc(l - 0.2) c h);
+    margin-left: 20%;
+  }
+  
+  .message-assistant {
+    background: 
+      linear-gradient(135deg,
+        var(--surface-raised) 0%,
+        oklch(from var(--surface-raised) calc(l + 0.02) c h) 100%
+      );
+    border: 1px solid oklch(from var(--accent-orange) calc(l - 0.3) c h);
+    margin-right: 20%;
+  }
+  
+  .message-assistant::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid var(--surface-raised);
+  }
+  
+  .message-user::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 12px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid oklch(from var(--accent-cyan) calc(l - 0.25) calc(c * 0.6) h);
+  }
+  
+  /* Input wrapper */
+  .input-wrapper {
+    flex: 1;
+    position: relative;
   }
 }
