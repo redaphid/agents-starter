@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Component Preview</title>
+  <link rel="stylesheet" href="src/styles/modern.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #f0f0f0;
+    }
+    
+    .preview-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .preview-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    .preview-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    
+    /* Import our opalescent variables */
+    :root {
+      --hue-primary: 250;
+      --hue-secondary: 190;
+      --hue-tertiary: 50;
+      --hue-accent: 300;
+      
+      --opal-white: oklch(97% 0.008 var(--hue-primary));
+      --opal-light: oklch(94% 0.012 var(--hue-secondary));
+      --opal-mid: oklch(90% 0.018 var(--hue-tertiary));
+      
+      --edge-violet: oklch(75% 0.06 var(--hue-primary));
+      --edge-cyan: oklch(80% 0.05 var(--hue-secondary));
+      --edge-gold: oklch(85% 0.04 var(--hue-tertiary));
+      --edge-purple: oklch(78% 0.05 var(--hue-accent));
+      
+      --bg-dark: oklch(12% 0.015 var(--hue-primary));
+      --text: oklch(25% 0.02 var(--hue-primary));
+      --text-dim: oklch(50% 0.015 var(--hue-secondary));
+      --text-light: oklch(95% 0.01 var(--hue-primary));
+      
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2rem;
+      --space-xl: 3rem;
+      
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="preview-container">
+    <h1>Message Component Preview</h1>
+    
+    <div class="preview-section">
+      <div class="preview-title">User Message</div>
+      <div class="message message-user">
+        <p>How many fingers does a human hand have?</p>
+        <p class="text-xs opacity-60 mt-2">12:35 AM</p>
+      </div>
+    </div>
+    
+    <div class="preview-section">
+      <div class="preview-title">Assistant Message</div>
+      <div class="message message-assistant">
+        <p>There are 5 fingers on an average human hand.</p>
+        <p class="text-xs opacity-60 mt-2">12:35 AM</p>
+      </div>
+    </div>
+    
+    <div class="preview-section">
+      <div class="preview-title">Tool Invocation Message</div>
+      <div class="message message-assistant">
+        <div style="background: #2d2d2d; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+          <div style="background: #4a4a4a; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
+            <strong>echo✓ Completed</strong>
+            <div style="margin-top: 8px;">
+              <strong>Arguments:</strong>
+              <div style="background: #1a1a1a; padding: 12px; border-radius: 4px; margin-top: 8px; font-family: monospace;">
+                {<br>
+                &nbsp;&nbsp;"message": "There are 5 fingers on an average human hand."<br>
+                }
+              </div>
+            </div>
+            <div style="margin-top: 12px;">
+              <strong>Result:</strong><br>
+              SUCCESS
+              <div style="background: #1a1a1a; padding: 12px; border-radius: 4px; margin-top: 8px;">
+                12:35 AM: There are 5 fingers on an average human hand.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="preview-section">
+      <div class="preview-title">Markdown Content</div>
+      <div class="message message-assistant">
+        <h3>Code Example</h3>
+        <p>Here's how to calculate fingers:</p>
+        <pre><code>function countFingers() {
+  return 5; // Standard human hand
+}</code></pre>
+        <p>This function returns the <code>standard</code> finger count.</p>
+        <ul>
+          <li>Thumb</li>
+          <li>Index finger</li>
+          <li>Middle finger</li>
+          <li>Ring finger</li>
+          <li>Pinky finger</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
