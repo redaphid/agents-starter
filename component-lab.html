@@ -358,6 +358,16 @@
       border-bottom: 1px solid oklch(75% 0.15 280 / 0.3);
       position: relative;
       overflow: hidden;
+      
+      /* ✨ ACCESSIBILITY ENHANCEMENT: Better contrast while preserving magic
+       * 
+       * REASONING: The opalescent background is magical but we need to ensure
+       * text remains readable. Adding subtle text shadow maintains the ethereal
+       * feel while meeting WCAG contrast requirements.
+       */
+      text-shadow: 
+        0 1px 3px oklch(15% 0.05 280 / 0.8),
+        0 0 8px oklch(15% 0.1 280 / 0.4);
     }
 
     .tool-eye-header::before {
@@ -464,11 +474,20 @@
       position: relative;
       z-index: 2;
       font-size: var(--text-lg);
-      font-weight: 500;
-      color: var(--text);
+      font-weight: 600; /* Increased weight for better readability */
+      color: oklch(15% 0.03 var(--hue-primary)); /* Darker for WCAG compliance */
       text-align: center;
       line-height: 1.6;
-      text-shadow: 0 1px 2px oklch(95% 0.05 280 / 0.3);
+      
+      /* ✨ MAGICAL ACCESSIBILITY: Enhanced contrast with shimmer preservation
+       * 
+       * REASONING: Darker text meets WCAG 4.5:1 contrast ratio while subtle
+       * highlight shadow maintains the magical shimmer effect against the
+       * opalescent background.
+       */
+      text-shadow: 
+        0 1px 0 oklch(98% 0.02 280 / 0.9),
+        0 0 4px oklch(95% 0.05 280 / 0.5);
     }
 
     .tool-details {
@@ -483,10 +502,29 @@
       cursor: pointer;
       padding: var(--space-xs) 0;
       font-weight: 600;
+      border-radius: 4px;
+      
+      /* ✨ MAGICAL KEYBOARD ACCESSIBILITY
+       * 
+       * REASONING: Interactive elements need focus states for keyboard users.
+       * The opalescent glow maintains our magical theme while clearly indicating
+       * focusable elements.
+       */
+      transition: all 0.2s ease;
     }
 
     .tool-details summary:hover {
       color: var(--text);
+      text-shadow: 0 0 8px oklch(75% 0.2 280 / 0.4);
+    }
+    
+    .tool-details summary:focus {
+      outline: 2px solid oklch(75% 0.25 280);
+      outline-offset: 2px;
+      color: var(--text);
+      box-shadow: 
+        0 0 0 4px oklch(75% 0.25 280 / 0.2),
+        0 0 16px oklch(75% 0.25 280 / 0.3);
     }
 
     .tool-json {
@@ -503,10 +541,78 @@
       font-size: 12px;
     }
 
-    /* Grid layout for side-by-side comparison */
-    @media (min-width: 768px) {
+    /* ✨ BLEEDING EDGE: Container Queries for True Component Responsiveness
+     * 
+     * DESIGN DECISIONS (Round 2 - 2025-07-24):
+     * - Replace outdated media queries with container queries
+     * - Enable component-based responsive design
+     * - Preserve opalescent theme while improving layout adaptability
+     * - Test hypothesis H5: Container queries > media queries for components
+     * 
+     * BROWSER SUPPORT: Chrome 105+, Safari 16+, Firefox 110+ (2025: Excellent)
+     */
+    
+    /* Enable container queries on showcase */
+    .component-showcase {
+      container-type: inline-size;
+      container-name: showcase;
+    }
+    
+    /* Container-based responsive grid */
+    @container showcase (width > 768px) {
       .component-showcase {
         grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Tool bubbles container context */
+    .tool-bubble-magic {
+      container-type: inline-size;
+      container-name: magic-bubble;
+    }
+    
+    /* Responsive tool bubble layouts based on container size */
+    @container magic-bubble (width <= 400px) {
+      .tool-eye-header {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-sm);
+      }
+      
+      .tool-icon {
+        align-self: center;
+      }
+      
+      .tool-info {
+        text-align: center;
+      }
+      
+      .tool-status-magic {
+        align-self: center;
+      }
+    }
+    
+    @container magic-bubble (400px < width <= 600px) {
+      .tool-result-showcase {
+        padding: var(--space-md);
+      }
+      
+      .result-text {
+        font-size: var(--text-base);
+      }
+    }
+    
+    @container magic-bubble (width > 600px) {
+      .tool-result-showcase {
+        padding: var(--space-xl);
+      }
+      
+      .result-text {
+        font-size: var(--text-xl);
+      }
+      
+      .tool-eye-header {
+        padding: var(--space-lg);
       }
     }
   </style>

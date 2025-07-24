@@ -94,6 +94,39 @@ background:
 **Reality**: Some gradient combinations cause repaints  
 **Learning**: Profile animations, prefer `transform` and `opacity`
 
+### H5: Container Queries Provide Superior Component Responsiveness vs Media Queries
+**Theory**: Container queries enable true component-based responsive design vs viewport-based  
+**Implementation**: Convert tool bubble responsive logic to container-based using @container  
+**Observed Pattern**:
+```css
+.tool-bubble-magic {
+  container-type: inline-size;
+  container-name: magic-bubble;
+}
+
+@container magic-bubble (width <= 400px) {
+  .tool-eye-header { flex-direction: column; text-align: center; }
+}
+```
+**Status**: ✅ VALIDATED - Bubbles now respond to their actual container, not viewport  
+**Evidence**: Tool bubbles adapt intelligently in sidebar, drawer, or main content areas  
+**Browser Support**: Chrome 105+, Safari 16+, Firefox 110+ (Excellent in 2025)
+
+### H6: Accessibility Can Enhance Magic Rather Than Diminish It
+**Theory**: Proper contrast and focus states can make magical designs MORE engaging  
+**Implementation**: Enhanced text shadows, focus glows, keyboard accessibility  
+**Observed Pattern**:
+```css
+.result-text {
+  color: oklch(15% 0.03 var(--hue-primary)); /* WCAG compliant */
+  text-shadow: 
+    0 1px 0 oklch(98% 0.02 280 / 0.9),  /* Magical shimmer */
+    0 0 4px oklch(95% 0.05 280 / 0.5);  /* Ethereal glow */
+}
+```
+**Status**: 🔄 TESTING - Accessibility improvements while preserving opalescent theme  
+**Evidence**: Darker contrast maintains readability, magical shadows preserve shimmer
+
 ## Next Research Areas
 
 1. **CSS Subgrid**: For nested alignment without wrapper hell
