@@ -13,7 +13,7 @@ export default defineConfig({
   workers: 1, // Single worker for isolation
   reporter: [['html', { outputFolder: './tmp/screenshots/playwright-report' }]],
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: 'http://localhost:5174',
     trace: 'on-first-retry',
     screenshot: 'on', // Always take screenshots
     video: 'on', // Always capture video

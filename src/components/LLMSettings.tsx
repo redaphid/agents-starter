@@ -1,4 +1,4 @@
-import { useState, type FC } from "react"
+import { useState, useEffect, type FC } from "react"
 import { X, Gear } from "@phosphor-icons/react"
 import type { LLMConfig, LLMProvider } from "@/hooks/useLLMConnection"
 
@@ -27,6 +27,36 @@ export const LLMSettings: FC<LLMSettingsProps> = ({
   const [cloudflareAccountId, setCloudflareAccountId] = useState(currentConfig?.cloudflareAccountId || "")
   const [cloudflareGatewayId, setCloudflareGatewayId] = useState(currentConfig?.cloudflareGatewayId || "")
   const [cloudflareApiToken, setCloudflareApiToken] = useState(currentConfig?.cloudflareApiToken || "")
+  const [availableModels, setAvailableModels] = useState<string[]>([])
+  const [loadingModels, setLoadingModels] = useState(false)
+
+  // Fetch available models when provider changes to Ollama
+  useEffect(() => {
+    if (provider === "ollama" && isOpen) {
+      fetchAvailableModels()
+    }
+  }, [provider, ollamaUrl, isOpen])
+
+  const fetchAvailableModels = async () => {
+    setLoadingModels(true)
+    try {
+      const response = await fetch("/api/llm/list-models", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          provider: "ollama",
+          config: { ollama: { baseUrl: ollamaUrl } }
+        })
+      })
+      const data = await response.json()
+      setAvailableModels(data.models || [])
+    } catch (error) {
+      console.error("Failed to fetch models:", error)
+      setAvailableModels([])
+    } finally {
+      setLoadingModels(false)
+    }
+  }
 
   if (!isOpen) return null
 
@@ -111,15 +141,35 @@ export const LLMSettings: FC<LLMSettingsProps> = ({
                   <label className="block text-sm font-medium mb-2">
                     Model Designation
                   </label>
-                  <input
-                    type="text"
-                    value={ollamaModel}
-                    onChange={(e) => setOllamaModel(e.target.value)}
-                    placeholder="deepseek-r1:8b"
-                    className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800"
-                  />
+                  {loadingModels ? (
+                    <div className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-neutral-500">
+                      🌀 Scanning dimensional models...
+                    </div>
+                  ) : availableModels.length > 0 ? (
+                    <select
+                      value={ollamaModel}
+                      onChange={(e) => setOllamaModel(e.target.value)}
+                      className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+                    >
+                      {availableModels.map((model) => (
+                        <option key={model} value={model}>
+                          {model}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      value={ollamaModel}
+                      onChange={(e) => setOllamaModel(e.target.value)}
+                      placeholder="deepseek-r1:8b"
+                      className="w-full px-3 py-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+                    />
+                  )}
                   <p className="text-xs text-neutral-500 mt-1">
-                    Popular choices: deepseek-r1:8b, llama3.2:3b, qwen2.5-coder:7b
+                    {availableModels.length > 0 
+                      ? `${availableModels.length} models detected in oracle`
+                      : "Manual entry - ensure model exists in Ollama"}
                   </p>
                 </div>
               </>
