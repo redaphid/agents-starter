@@ -20,8 +20,8 @@ const ollama = createOpenAI({
   baseURL: "http://localhost:11434/v1", // Default Ollama API endpoint
 });
 
-// Use a model available in Ollama (user can change this)
-const model = ollama("deepseek-r1:8b"); // Popular local model
+// Use a model available in Ollama that supports tools
+const model = ollama("llama3.2:latest"); // Supports tools and function calling
 
 // Fallback to OpenAI if OPENAI_API_KEY is provided
 // const openaiClient = createOpenAI({
