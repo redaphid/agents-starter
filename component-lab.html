@@ -5,8 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Component Lab</title>
   <style>
-    /* Copy our opalescent CSS inline for zero-setup */
+    /* ✨ ETHEREAL ANIMATION CONTROL SYSTEM
+     * 
+     * DESIGN DECISIONS (Round 4 - 2025-07-24):
+     * - User requested: "let me adjust the magnitude whatever"
+     * - CSS custom properties for user control
+     * - Subtle, varying animations for sparkles and glimmers
+     * - Small and tasteful ethereal effects
+     */
     :root {
+      /* 🎛️ USER ADJUSTABLE CONTROLS */
+      --ethereal-magnitude: 1; /* User can adjust 0-2 for intensity */
+      --sparkle-intensity: calc(var(--ethereal-magnitude) * 0.3);
+      --shimmer-duration: calc(4s / max(var(--ethereal-magnitude), 0.5));
+      --glimmer-opacity: calc(var(--ethereal-magnitude) * 0.2);
+      --color-shift-range: calc(var(--ethereal-magnitude) * 10deg);
+      
+    /* Copy our opalescent CSS inline for zero-setup */
       --hue-primary: 250;
       --hue-secondary: 190;
       --hue-tertiary: 50;
@@ -140,34 +155,107 @@
     }
     
     .demo-content {
-      padding: 30px;
+      padding: 16px; /* Reduced from cartoonishly large 30px */
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
+    /* ✨ ETHEREAL FLOATING LABELS: Elegant otherworldly design
+     * 
+     * DESIGN DECISIONS (Round 4 - 2025-07-24):
+     * - Fix user-reported "chip-like" ugly appearance
+     * - Create floating ethereal label effect
+     * - Ensure proper contrast while maintaining magical quality
+     * - Add subtle sparkle animation for living labels
+     */
     .demo-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text);
+      font-size: 10px;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin: 0 0 20px 0;
-      padding: 8px 12px;
-      background: 
-        linear-gradient(135deg, var(--edge-violet), var(--edge-cyan));
-      border-radius: 6px;
+      letter-spacing: 0.15em;
+      margin: 0 0 16px 0;
+      padding: 6px 0;
+      position: relative;
       display: inline-block;
-      color: var(--opal-white);
-      box-shadow: 0 2px 8px oklch(from var(--edge-violet) l c h / 0.3);
-      border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.6) h / 0.4);
+      
+      /* Dark text for WCAG compliance */
+      color: #1a1a20;
+      color: var(--text-contrast);
+      
+      /* Ethereal floating effect */
+      background: none;
+      border: none;
+      
+      /* Magical text enhancement */
+      text-shadow: 
+        0 0 8px oklch(85% 0.15 280 / 0.4),
+        0 0 16px oklch(90% 0.1 250 / 0.2);
+      
+      /* Subtle sparkle animation */
+      animation: labelSparkle 4s ease-in-out infinite;
+    }
+    
+    .demo-label::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        oklch(80% 0.2 280 / 0.6) 50%, 
+        transparent 100%);
+      animation: labelUnderlineShimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes labelSparkle {
+      0%, 100% { 
+        text-shadow: 
+          0 0 8px oklch(85% 0.15 280 / 0.4),
+          0 0 16px oklch(90% 0.1 250 / 0.2);
+      }
+      50% { 
+        text-shadow: 
+          0 0 12px oklch(85% 0.18 280 / 0.6),
+          0 0 20px oklch(90% 0.12 250 / 0.3),
+          0 0 24px oklch(95% 0.08 200 / 0.1);
+      }
+    }
+    
+    @keyframes labelUnderlineShimmer {
+      0%, 100% { transform: translateX(-100%); opacity: 0; }
+      50% { transform: translateX(0); opacity: 1; }
     }
 
-    /* Message Styles */
+    /* ✨ REFINED MESSAGE STYLES: Cleaner nesting and proper contrast
+     * 
+     * DESIGN DECISIONS (Round 4 - 2025-07-24):
+     * - Fix user-reported strange nested appearance
+     * - Reduce excessive padding that creates weird nesting effect
+     * - Ensure text contrast while maintaining opalescent theme
+     * - Add subtle ethereal glow effects
+     */
     .message {
-      padding: var(--space-lg);
-      border-radius: 16px;
+      padding: 12px 16px; /* Much more reasonable sizing */
+      border-radius: 12px;
       position: relative;
-      backdrop-filter: blur(10px);
-      line-height: 1.5;
+      backdrop-filter: blur(8px);
+      line-height: 1.6;
       font-size: var(--text-base);
+      
+      /* Flexbox for proper content alignment */
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      
+      /* Ensure readable text */
+      color: #1a1a20;
+      color: var(--text-contrast);
+      
+      /* Subtle ethereal text enhancement */
+      text-shadow: 0 0 4px oklch(95% 0.05 280 / 0.2);
     }
 
     .message-assistant {
@@ -178,7 +266,12 @@
       border: 1px solid oklch(from var(--edge-gold) l calc(c * 0.2) h / 0.2);
       margin-left: 5%;
       margin-right: 10%;
-      box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
+      box-shadow: 
+        0 2px 8px oklch(from var(--bg-dark) l c h / 0.03),
+        0 0 16px oklch(from var(--edge-gold) l c h / 0.05);
+      
+      /* Subtle sparkle animation */
+      animation: messageGlow 6s ease-in-out infinite;
     }
 
     .message-user {
@@ -189,7 +282,25 @@
       border: 1px solid oklch(from var(--edge-cyan) l calc(c * 0.2) h / 0.2);
       margin-left: 10%;
       margin-right: 5%;
-      box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
+      box-shadow: 
+        0 2px 8px oklch(from var(--bg-dark) l c h / 0.03),
+        0 0 16px oklch(from var(--edge-cyan) l c h / 0.05);
+      
+      /* Subtle sparkle animation with different timing */
+      animation: messageGlow 5s ease-in-out infinite;
+    }
+    
+    @keyframes messageGlow {
+      0%, 100% { 
+        box-shadow: 
+          0 2px 8px oklch(from var(--bg-dark) l c h / 0.03),
+          0 0 16px oklch(from var(--edge-gold) l c h / 0.05);
+      }
+      50% { 
+        box-shadow: 
+          0 3px 12px oklch(from var(--bg-dark) l c h / 0.05),
+          0 0 24px oklch(from var(--edge-gold) l c h / 0.08);
+      }
     }
 
     /* Tool card styling - improved */
@@ -203,7 +314,9 @@
       border-radius: 12px;
       padding: 0;
       margin: var(--space-md) 0;
-      color: var(--text-light);
+      /* Fixed contrast - use dark text instead of light */
+      color: #1a1a20;
+      color: var(--text-contrast);
       overflow: hidden;
       box-shadow: 
         0 4px 12px oklch(from var(--bg-dark) l c h / 0.3),
@@ -220,7 +333,9 @@
       margin: 0;
       font-weight: 600;
       font-size: var(--text-base);
-      color: var(--text-light);
+      /* Fixed contrast for tool header text */
+      color: #1a1a20;
+      color: var(--text-contrast);
       display: flex;
       align-items: center;
       gap: var(--space-sm);
@@ -405,6 +520,114 @@
           0 0 8px oklch(97% 0.10 280 / 0.8),    /* More pronounced glow */
           0 0 16px oklch(95% 0.15 280 / 0.5);   /* Expanded magical aura */
       }
+      
+      /* Static sparkles for reduced motion - subtle but present */
+      .component-demo::after {
+        opacity: calc(var(--sparkle-intensity) * 0.5);
+        animation: none;
+      }
+    }
+    
+    /* ✨ TRUE IRIDESCENT SYSTEM: Like opalescent creature eyes
+     * 
+     * DESIGN DECISIONS (Round 4 FIXED - 2025-07-24):
+     * - User correction: NOT rotating shadows, but subtle color shifts
+     * - Reference: opalescent creature eyes, oil-on-water effects
+     * - True iridescence: gentle hue transitions across surfaces
+     * - Magnitude controls intensity of color shifts, not harsh animations
+     */
+    
+    /* Iridescent backgrounds that shift color subtly */
+    .tool-bubble-magic {
+      position: relative;
+      background: 
+        /* Base opalescent layers */
+        radial-gradient(ellipse at 20% 30%, 
+          oklch(75% calc(0.25 * var(--ethereal-magnitude)) calc(280deg + var(--color-shift-range))) 0%,
+          oklch(70% calc(0.3 * var(--ethereal-magnitude)) calc(200deg + var(--color-shift-range))) 25%,
+          oklch(65% calc(0.35 * var(--ethereal-magnitude)) calc(160deg + var(--color-shift-range))) 50%,
+          transparent 70%
+        ),
+        radial-gradient(ellipse at 60% 70%, 
+          oklch(80% calc(0.2 * var(--ethereal-magnitude)) calc(45deg + var(--color-shift-range))) 0%,
+          oklch(75% calc(0.25 * var(--ethereal-magnitude)) calc(320deg + var(--color-shift-range))) 30%,
+          transparent 60%
+        ),
+        radial-gradient(ellipse 80% 70% at center, 
+          var(--opal-white) 0%, 
+          oklch(94% calc(0.02 * var(--ethereal-magnitude)) calc(250deg + var(--color-shift-range))) 40%,
+          transparent 100%
+        );
+      
+      animation: iridescenceShift calc(var(--shimmer-duration) * 3) ease-in-out infinite;
+    }
+    
+    /* Subtle shimmer sweep - like light moving across an opal */
+    .tool-bubble-magic::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg,
+        transparent 0%,
+        oklch(98% calc(0.05 * var(--ethereal-magnitude)) calc(280deg + var(--color-shift-range)) / calc(var(--glimmer-opacity) * 0.6)) 30%,
+        oklch(96% calc(0.08 * var(--ethereal-magnitude)) calc(200deg + var(--color-shift-range)) / calc(var(--glimmer-opacity) * 0.8)) 50%,
+        oklch(94% calc(0.06 * var(--ethereal-magnitude)) calc(320deg + var(--color-shift-range)) / calc(var(--glimmer-opacity) * 0.4)) 70%,
+        transparent 100%
+      );
+      animation: opalShimmer var(--shimmer-duration) ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    /* Messages get subtle iridescent glow */
+    .message-assistant,
+    .message-user {
+      animation: messageIridescence calc(var(--shimmer-duration) * 2) ease-in-out infinite;
+    }
+    
+    @keyframes iridescenceShift {
+      0%, 100% { 
+        filter: hue-rotate(0deg) saturate(1) brightness(1);
+      }
+      25% { 
+        filter: hue-rotate(calc(var(--color-shift-range) * 0.3)) saturate(calc(1 + var(--ethereal-magnitude) * 0.1)) brightness(calc(1 + var(--ethereal-magnitude) * 0.05));
+      }
+      50% { 
+        filter: hue-rotate(calc(var(--color-shift-range) * 0.6)) saturate(calc(1 + var(--ethereal-magnitude) * 0.15)) brightness(calc(1 + var(--ethereal-magnitude) * 0.08));
+      }
+      75% { 
+        filter: hue-rotate(calc(var(--color-shift-range) * 0.2)) saturate(calc(1 + var(--ethereal-magnitude) * 0.05)) brightness(calc(1 + var(--ethereal-magnitude) * 0.03));
+      }
+    }
+    
+    @keyframes opalShimmer {
+      0% { 
+        left: -100%; 
+        opacity: 0;
+        transform: rotate(-5deg);
+      }
+      50% { 
+        left: 50%; 
+        opacity: calc(var(--glimmer-opacity) * 0.8);
+        transform: rotate(0deg);
+      }
+      100% { 
+        left: 100%; 
+        opacity: 0;
+        transform: rotate(5deg);
+      }
+    }
+    
+    @keyframes messageIridescence {
+      0%, 100% { 
+        filter: saturate(1) brightness(1);
+      }
+      50% { 
+        filter: saturate(calc(1 + var(--ethereal-magnitude) * 0.08)) brightness(calc(1 + var(--ethereal-magnitude) * 0.03));
+      }
     }
 
     .tool-eye-header {
@@ -502,8 +725,11 @@
     }
 
     .tool-result-showcase {
-      padding: var(--space-lg);
+      padding: 16px; /* Reduced from excessive var(--space-lg) */
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: 
         radial-gradient(ellipse at center,
           var(--opal-white) 0%,
@@ -765,6 +991,26 @@
     <div class="lab-header">
       <div class="lab-title">🧪 Component Lab</div>
       <div class="lab-subtitle">Zero-setup component inspection • Live edit the HTML below</div>
+      
+      <!-- ✨ ETHEREAL CONTROL PANEL: User adjustable animation magnitude -->
+      <div style="margin-top: 20px; padding: 16px; background: oklch(96% 0.005 280 / 0.5); border-radius: 8px; border: 1px solid oklch(85% 0.03 280 / 0.3);">
+        <label for="ethereal-control" style="display: block; font-size: 12px; font-weight: 600; color: var(--text-contrast); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
+          ✨ Ethereal Magnitude Control
+        </label>
+        <input 
+          type="range" 
+          id="ethereal-control" 
+          min="0" 
+          max="2" 
+          step="0.1" 
+          value="1"
+          style="width: 100%; margin-bottom: 8px;"
+          oninput="document.documentElement.style.setProperty('--ethereal-magnitude', this.value)"
+        />
+        <div style="font-size: 11px; color: var(--text-dim); text-align: center;">
+          Adjust sparkles, glimmers, and color shifts intensity (0 = off, 1 = default, 2 = maximum)
+        </div>
+      </div>
     </div>
 
     <div class="component-showcase">
