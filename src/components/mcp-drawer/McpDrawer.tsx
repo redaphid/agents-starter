@@ -70,15 +70,7 @@ export function McpDrawer({ onUrlsChange }: McpDrawerProps) {
     const newIsOpen = !isOpen
     setIsOpen(newIsOpen)
     
-    // Add/remove class to app container to activate grid columns
-    const appContainer = document.querySelector('.app-container')
-    if (appContainer) {
-      if (newIsOpen) {
-        appContainer.classList.add('drawer-open')
-      } else {
-        appContainer.classList.remove('drawer-open')
-      }
-    }
+    // No need to modify app container - drawer overlays naturally
     
     // Announce state change to screen readers - accessibility across dimensions
     const message = isOpen 

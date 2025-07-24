@@ -7,15 +7,15 @@
  */
 
 @layer components {
-  /* 🌀 RIGHT-SIDE DRAWER HANDLE - ATTACHED TO DRAWER COLUMN */
+  /* 🌀 RIGHT-SIDE DRAWER HANDLE - FIXED TO SCREEN EDGE */
   .drawer-toggle {
-    position: absolute;
-    left: -1.5rem; /* Outside the left edge of drawer column */
+    position: fixed;
+    right: 0; /* At the right edge of screen */
     top: 50%;
     transform: translateY(-50%);
     width: 1.5rem;
     height: 12rem; /* Longer handle */
-    border-radius: 0.75rem 0 0 0.75rem; /* Rounded on left side (towards chat) */
+    border-radius: 0.75rem 0 0 0.75rem; /* Rounded on left side */
     cursor: pointer;
     z-index: 1001;
     
@@ -57,8 +57,10 @@
   }
 
   .drawer-content {
-    position: relative; /* Grid column positioning */
-    width: 100%; /* Fill the grid column */
+    position: fixed;
+    top: 0;
+    right: -380px; /* Start off-screen */
+    width: 380px;
     height: 100vh;
     padding: var(--space-lg);
     
@@ -72,26 +74,18 @@
     border-left: 1px solid oklch(85% 0.1 280 / 0.3);
     backdrop-filter: blur(12px);
     
+    transition: right 400ms ease; /* Smooth slide animation */
+    
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: oklch(80% 0.1 280 / 0.4) transparent;
-    
-    /* Hide when closed - grid column will be 0px wide */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 400ms ease, visibility 400ms ease;
-    
-    /* Natural stacking - no z-index needed */
+    z-index: 1000; /* Above everything else */
   }
 
   .drawer-content.open {
-    /* Show when open */
-    opacity: 1;
-    visibility: visible;
-    
-    /* Grid handles the reveal - add shadow for depth */
+    right: 0; /* Slide to screen edge */
     box-shadow: 
-      -2rem 0 4rem oklch(75% 0.2 280 / 0.2), /* Left shadow for right drawer */
+      -2rem 0 4rem oklch(75% 0.2 280 / 0.2), /* Left shadow for depth */
       -1rem 0 2rem oklch(85% 0.15 260 / 0.3);
   }
   

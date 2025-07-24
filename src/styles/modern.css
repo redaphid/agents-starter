@@ -105,15 +105,10 @@
 @layer components {
   .app-container {
     display: grid;
-    grid-template-columns: 1fr 0fr; /* Chat takes full width, drawer takes no space */
-    grid-template-areas: "chat drawer";
+    grid-template-columns: 1fr;
+    grid-template-areas: "chat";
     height: 100%;
     container-type: inline-size;
-    transition: grid-template-columns 400ms ease;
-  }
-  
-  .app-container.drawer-open {
-    grid-template-columns: 1fr 380px; /* Chat shrinks, drawer gets space */
   }
 
   .chat-container {
@@ -149,7 +144,7 @@
     backdrop-filter: blur(10px);
   }
   
-  /* Remove the transform approach - grid handles layout now */
+  /* Chat container stays full width - drawer overlays */
   
   /* Opalescent corner "eyes" */
   .chat-container::before,
