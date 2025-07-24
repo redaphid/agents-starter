@@ -14,8 +14,10 @@
      * - Small and tasteful ethereal effects
      */
     :root {
-      /* 🎛️ USER ADJUSTABLE CONTROLS */
-      --ethereal-magnitude: 1; /* User can adjust 0-2 for intensity */
+      /* 🎛️ USER ADJUSTABLE CONTROLS 
+       * Easy customization: Change --ethereal-magnitude between 0-2
+       * 0 = minimal effects, 1 = default, 2 = maximum ethereal experience */
+      --ethereal-magnitude: 1.2; /* Slightly enhanced default */
       --sparkle-intensity: calc(var(--ethereal-magnitude) * 0.3);
       --shimmer-duration: calc(4s / max(var(--ethereal-magnitude), 0.5));
       --glimmer-opacity: calc(var(--ethereal-magnitude) * 0.2);
@@ -170,12 +172,12 @@
      * - Add subtle sparkle animation for living labels
      */
     .demo-label {
-      font-size: 10px;
+      font-size: 14px; /* Increased from 10px for better readability */
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em; /* Reduced from 0.15em for better readability */
       margin: 0 0 16px 0;
-      padding: 6px 0;
+      padding: 8px 0; /* Slightly increased padding */
       position: relative;
       display: inline-block;
       
@@ -463,9 +465,17 @@
       overflow: hidden;
       position: relative;
       
+      /* ✨ RIM LIGHTING: Multi-layer edge illumination for ethereal depth */
       box-shadow: 
+        /* Outer ethereal aura */
+        0 0 12px oklch(from var(--edge-violet) l c h / calc(var(--ethereal-magnitude) * 0.25)),
+        0 0 24px oklch(from var(--edge-cyan) l c h / calc(var(--ethereal-magnitude) * 0.15)),
+        /* Main depth shadows */
         0 8px 32px oklch(75% 0.25 280 / 0.2),
         0 2px 8px oklch(70% 0.3 200 / 0.3),
+        /* Inner rim highlights */
+        inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8),
+        inset 0 -1px 0 oklch(from var(--edge-gold) l c h / 0.4),
         inset 0 2px 0 oklch(95% 0.1 280 / 0.5);
       
       animation: toolGlow 3s ease-in-out infinite;
@@ -483,14 +493,28 @@
     @keyframes toolGlow {
       0%, 100% { 
         box-shadow: 
+          /* Rim lighting aura - subtle */
+          0 0 12px oklch(from var(--edge-violet) l c h / calc(var(--ethereal-magnitude) * 0.25)),
+          0 0 24px oklch(from var(--edge-cyan) l c h / calc(var(--ethereal-magnitude) * 0.15)),
+          /* Main depth shadows */
           0 8px 32px oklch(75% 0.25 280 / 0.2),
           0 2px 8px oklch(70% 0.3 200 / 0.3),
+          /* Inner rim highlights */
+          inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8),
+          inset 0 -1px 0 oklch(from var(--edge-gold) l c h / 0.4),
           inset 0 2px 0 oklch(95% 0.1 280 / 0.5);
       }
       50% { 
         box-shadow: 
+          /* Rim lighting aura - enhanced */
+          0 0 16px oklch(from var(--edge-violet) l c h / calc(var(--ethereal-magnitude) * 0.35)),
+          0 0 32px oklch(from var(--edge-cyan) l c h / calc(var(--ethereal-magnitude) * 0.25)),
+          /* Main depth shadows - enhanced */
           0 12px 48px oklch(75% 0.25 280 / 0.3),
           0 4px 16px oklch(70% 0.3 200 / 0.4),
+          /* Inner rim highlights - enhanced */
+          inset 0 1px 0 oklch(from var(--opal-white) l c h / 1),
+          inset 0 -1px 0 oklch(from var(--edge-gold) l c h / 0.6),
           inset 0 2px 0 oklch(95% 0.1 280 / 0.7);
       }
     }
@@ -498,10 +522,17 @@
     /* 🔮 STATIC MAGICAL EXPERIENCE: Elegant opalescence without motion */
     @media (prefers-reduced-motion: reduce) {
       .tool-bubble-magic {
-        /* Static magical glow - no animation but still enchanting */
+        /* Static magical glow with rim lighting - no animation but still enchanting */
         box-shadow: 
+          /* Static rim lighting aura */
+          0 0 14px oklch(from var(--edge-violet) l c h / calc(var(--ethereal-magnitude) * 0.3)),
+          0 0 28px oklch(from var(--edge-cyan) l c h / calc(var(--ethereal-magnitude) * 0.2)),
+          /* Enhanced static depth */
           0 10px 40px oklch(75% 0.25 280 / 0.25),
           0 3px 12px oklch(70% 0.3 200 / 0.35),
+          /* Static inner rim highlights */
+          inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.9),
+          inset 0 -1px 0 oklch(from var(--edge-gold) l c h / 0.5),
           inset 0 2px 0 oklch(95% 0.1 280 / 0.6);
         animation: none;
       }
@@ -989,29 +1020,12 @@
 <body>
   <div class="lab-container">
     <div class="lab-header">
-      <div class="lab-title">🧪 Component Lab</div>
+      <h1 class="lab-title">🧪 Component Lab</h1>
       <div class="lab-subtitle">Zero-setup component inspection • Live edit the HTML below</div>
       
-      <!-- ✨ ETHEREAL CONTROL PANEL: User adjustable animation magnitude -->
-      <div style="margin-top: 20px; padding: 16px; background: oklch(96% 0.005 280 / 0.5); border-radius: 8px; border: 1px solid oklch(85% 0.03 280 / 0.3);">
-        <label for="ethereal-control" style="display: block; font-size: 12px; font-weight: 600; color: var(--text-contrast); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.1em;">
-          ✨ Ethereal Magnitude Control
-        </label>
-        <input 
-          type="range" 
-          id="ethereal-control" 
-          min="0" 
-          max="2" 
-          step="0.1" 
-          value="1"
-          style="width: 100%; margin-bottom: 8px;"
-          oninput="document.documentElement.style.setProperty('--ethereal-magnitude', this.value)"
-        />
-        <div style="font-size: 11px; color: var(--text-dim); text-align: center;">
-          Adjust sparkles, glimmers, and color shifts intensity (0 = off, 1 = default, 2 = maximum)
-        </div>
-      </div>
     </div>
+
+    <h2 style="color: var(--text-contrast); font-size: 20px; margin: 32px 0 20px 0; font-weight: 600;">✨ Magical Component Showcase</h2>
 
     <div class="component-showcase">
       <div class="component-demo">
