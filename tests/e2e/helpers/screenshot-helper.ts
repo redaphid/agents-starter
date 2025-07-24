@@ -46,3 +46,24 @@ export async function startPeriodicScreenshots(
     isRunning = false
   }
 }
+
+/**
+ * Take a single screenshot with organized naming
+ */
+export async function takeScreenshot(
+  page: Page,
+  category: string,
+  screenshotName: string
+): Promise<void> {
+  try {
+    const dir = `./tmp/screenshots/${category}`
+    mkdirSync(dir, { recursive: true })
+    
+    await page.screenshot({
+      path: join(dir, `${screenshotName}.png`),
+      fullPage: true,
+    })
+  } catch (error) {
+    console.log(`Screenshot failed: ${error}`)
+  }
+}

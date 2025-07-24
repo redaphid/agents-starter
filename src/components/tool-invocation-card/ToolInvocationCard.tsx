@@ -23,48 +23,56 @@ interface ToolInvocationCardProps {
   addToolResult: (args: { toolCallId: string; result: string }) => void;
 }
 
-// Tool-specific configurations for exciting achievements
-const TOOL_CONFIGS = {
+// Opalescent tool configurations inspired by cosmic creatures
+const OPAL_TOOL_CONFIGS = {
   echo: {
     icon: "🔮",
     name: "Echo Protocol",
     action: "Broadcasting cosmic signal...",
     achievement: "Signal Echoed Successfully!",
-    color: "oklch(75% 0.25 280)",
-    bgGradient: "linear-gradient(135deg, oklch(95% 0.05 280 / 0.6), oklch(97% 0.03 240 / 0.8))",
-    borderColor: "oklch(75% 0.1 260 / 0.3)",
+    color: "oklch(78% 0.18 200)",  // Aqua mist from magical effects
+    accentColor: "oklch(82% 0.12 300)", // Lavender dream 
+    bgGradient: "linear-gradient(135deg, oklch(96% 0.02 280 / 0.9), oklch(94% 0.04 240 / 0.95))",
+    borderColor: "oklch(78% 0.08 200 / 0.4)",
+    shimmerColors: ["oklch(96% 0.02 280)", "oklch(78% 0.18 200)", "oklch(82% 0.12 300)"],
   },
   weather: {
-    icon: "🌤️",
+    icon: "🌤️", 
     name: "Atmospheric Scanner",
     action: "Analyzing weather patterns...",
     achievement: "Atmospheric Data Acquired!",
-    color: "oklch(75% 0.25 200)",
-    bgGradient: "linear-gradient(135deg, oklch(95% 0.05 200 / 0.6), oklch(97% 0.03 180 / 0.8))",
-    borderColor: "oklch(75% 0.1 180 / 0.3)",
+    color: "oklch(85% 0.15 25)",   // Coral bloom from ear interiors
+    accentColor: "oklch(80% 0.20 65)", // Amber glow
+    bgGradient: "linear-gradient(135deg, oklch(96% 0.02 280 / 0.9), oklch(94% 0.04 25 / 0.95))",
+    borderColor: "oklch(85% 0.08 25 / 0.4)",
+    shimmerColors: ["oklch(96% 0.02 280)", "oklch(85% 0.15 25)", "oklch(80% 0.20 65)"],
   },
   task: {
     icon: "📝",
-    name: "Task Coordinator",
+    name: "Task Coordinator", 
     action: "Scheduling mission objective...",
     achievement: "Task Successfully Scheduled!",
-    color: "oklch(75% 0.25 45)",
-    bgGradient: "linear-gradient(135deg, oklch(95% 0.05 45 / 0.6), oklch(97% 0.03 60 / 0.8))",
-    borderColor: "oklch(75% 0.1 60 / 0.3)",
+    color: "oklch(82% 0.12 300)",  // Lavender dream from tendrils
+    accentColor: "oklch(78% 0.18 200)", // Aqua mist
+    bgGradient: "linear-gradient(135deg, oklch(96% 0.02 280 / 0.9), oklch(94% 0.04 300 / 0.95))",
+    borderColor: "oklch(82% 0.08 300 / 0.4)",
+    shimmerColors: ["oklch(96% 0.02 280)", "oklch(82% 0.12 300)", "oklch(78% 0.18 200)"],
   },
   default: {
     icon: "⚡",
     name: "Observatory Tool",
     action: "Executing dimensional protocol...",
     achievement: "Protocol Executed Successfully!",
-    color: "oklch(75% 0.25 280)",
-    bgGradient: "linear-gradient(135deg, oklch(95% 0.05 280 / 0.6), oklch(97% 0.03 240 / 0.8))",
-    borderColor: "oklch(75% 0.1 260 / 0.3)",
+    color: "oklch(80% 0.20 65)",   // Amber glow from eyes
+    accentColor: "oklch(85% 0.15 25)", // Coral bloom
+    bgGradient: "linear-gradient(135deg, oklch(96% 0.02 280 / 0.9), oklch(94% 0.04 65 / 0.95))",
+    borderColor: "oklch(80% 0.08 65 / 0.4)",
+    shimmerColors: ["oklch(96% 0.02 280)", "oklch(80% 0.20 65)", "oklch(85% 0.15 25)"],
   }
 };
 
 function getToolConfig(toolName: string) {
-  return TOOL_CONFIGS[toolName as keyof typeof TOOL_CONFIGS] || TOOL_CONFIGS.default;
+  return OPAL_TOOL_CONFIGS[toolName as keyof typeof OPAL_TOOL_CONFIGS] || OPAL_TOOL_CONFIGS.default;
 }
 
 function formatResult(result: any): string {
@@ -117,18 +125,25 @@ export function ToolInvocationCard({
         backdropFilter: "blur(10px)",
       }}
     >
-      {/* Magical shimmer effect for completed achievements */}
+      {/* Opalescent shimmer effect for completed achievements */}
       {isCompleted && (
         <div 
-          className="achievement-shimmer"
+          className="opalescent-shimmer"
           style={{
             position: "absolute",
             top: "0",
-            left: "-100%",
-            width: "100%",
+            left: "-200%",
+            width: "200%",
             height: "100%",
-            background: `linear-gradient(45deg, transparent 0%, ${config.color}40 50%, transparent 100%)`,
-            animation: "shimmerSweep 2s ease-in-out infinite",
+            background: `linear-gradient(
+              45deg, 
+              transparent 0%, 
+              ${config.shimmerColors[0]}60 25%, 
+              ${config.shimmerColors[1]}80 50%, 
+              ${config.shimmerColors[2]}60 75%, 
+              transparent 100%
+            )`,
+            animation: "opalShimmer 3s ease-in-out infinite",
             pointerEvents: "none",
             zIndex: 1,
           }}
