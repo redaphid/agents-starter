@@ -189,22 +189,28 @@ Popular models to try:
 **EXACT METHODOLOGY**: Continue Creator/Critic cycles until both roles agree OR 100 iterations maximum. Iterate even if appearing "done". Continue after compacting events. Commit frequently.
 
 ### Detailed Process Flow
-1. **Creator Phase**
-   - Focus on user experience and visual impact
+1. **Creator Phase** (See `agents/creator/behavior.md` for full role definition)
+   - Focus on user experience, visual impact, and bleeding edge CSS techniques
+   - Research new CSS features via context7 MCP as needed
    - Design/implement new components or iterations
-   - Write private notes to `notes/creator/roundN-[topic].md`
+   - Write private notes to `agents/creator/notes/YYYY-MM-DDTHH-MM-SS_description.md`
    - Update `component-lab.html` with new designs
    - Document design decisions in CSS comments
    - Take screenshots of current state
    - Mark Creator todo as completed
 
-2. **Critic Phase**  
-   - Review designs for usability, accessibility, performance, production readiness
-   - Write private notes to `notes/critic/roundN-critique.md`
-   - Provide specific feedback and assessment
-   - Take screenshots of review state
-   - Determine if more iteration needed or if ready to ship
+2. **Critic Phase** (See `agents/critic/behavior.md` for full role definition)
+   - **RIGOROUS evaluation** for visual issues: bad contrast, overlapping text, weird padding, ugly layouts
+   - **Accessibility audit**: WCAG 2.1 AA compliance, keyboard navigation, screen reader compatibility
+   - **Performance analysis**: Animation performance, repaints, layout thrashing
+   - **Cross-browser compatibility**: Test bleeding edge CSS feature support with fallbacks
+   - Write detailed notes to `agents/critic/notes/YYYY-MM-DDTHH-MM-SS_critique-roundN.md`
+   - Provide specific, actionable feedback with screenshots
+   - Take screenshots of issues found
+   - Determine if more iteration needed or ready to ship
    - Mark Critic todo as completed
+
+**CRITICAL**: The Critic MUST catch visual/usability issues like light text on light backgrounds, overlapping elements, poor spacing, insufficient contrast ratios, broken responsive behavior, etc.
 
 3. **Iteration Decision**
    - If Critic approves: Move to final documentation
@@ -225,8 +231,9 @@ Popular models to try:
 - **No Hallucination**: Only document actually observed patterns and validated techniques
 
 ### Implementation Guidelines
-- **Separate note-taking**: Creator notes in `notes/creator/`, Critic notes in `notes/critic/`
-- **Timestamped iterations**: Each round numbered and dated for tracking
+- **Agent behavior files**: `agents/creator/behavior.md` and `agents/critic/behavior.md` define role requirements
+- **Timestamped notes**: Creator notes in `agents/creator/notes/`, Critic notes in `agents/critic/notes/`
+- **ISO timestamp format**: `YYYY-MM-DDTHH-MM-SS_description.md` for all notes
 - **Screenshot progression**: Visual documentation in `design-progression/screenshots/`
 - **Code documentation**: Design decisions in CSS comments and HTML
 - **Frequent commits**: After each phase with detailed methodology messages
@@ -237,9 +244,28 @@ Popular models to try:
 - OR 100 iteration rounds completed
 - OR user explicitly stops the process
 
+### Turn-Taking Method Explained
+
+The Creator/Critic methodology uses **strict role alternation** with distinct behavioral patterns:
+
+1. **Role Switching**: Claude adopts the specific personality and evaluation criteria defined in the agent behavior files
+2. **Behavioral Context**: Each role has different priorities, evaluation criteria, and quality standards
+3. **Private Notes**: Each agent maintains their own perspective and reasoning in timestamped notes
+4. **Quality Gates**: The Critic acts as a quality gate, preventing issues from reaching production
+
+#### Agent Behavior Files:
+- **`agents/creator/behavior.md`**: Defines creative focus, experimentation mindset, and design innovation priorities
+- **`agents/critic/behavior.md`**: Defines rigorous evaluation standards, accessibility requirements, and production readiness criteria
+
+#### Why This Works:
+- **Separation of Concerns**: Creative exploration vs. quality assurance happen in separate phases
+- **Balanced Perspective**: Prevents both "creative tunnel vision" and "analysis paralysis"
+- **Quality Assurance**: Critic must explicitly approve designs before they can be considered complete
+- **Iterative Improvement**: Each cycle refines the design based on specific feedback
+
 ### Current Status Tracking
-- **Round 1**: Completed (Creator: magical tool bubbles, Critic: 5-star approval)
-- **Round 2**: Starting (Creator to iterate based on methodology expansion)
+- **Round 1**: Completed (Creator: magical tool bubbles, Critic: 5-star approval BUT missed contrast issues)
+- **Round 2**: Ready to start (Creator needs to iterate, Critic needs to be more rigorous)
 
 ## Claude Code Memories & Research Requirements
 
@@ -259,8 +285,13 @@ Popular models to try:
 
 ### Active Research Documents:
 - `docs/MODERN_CSS_THEORIES.md` - Bleeding edge CSS patterns and hypotheses
-- `notes/css-observations/` - Real-world pattern validation
+- `agents/creator/notes/` - Creator's design research and implementation notes
+- `agents/critic/notes/` - Critic's evaluation findings and accessibility audits
 - DOM minimalism research ongoing
+
+### Agent Personalities:
+- **Creator**: Enthusiastic about visual design, willing to take creative risks, focused on user delight and bleeding edge CSS techniques
+- **Critic**: Detail-oriented quality advocate, ruthlessly honest about usability issues, prioritizes accessibility and production readiness
 
 ### General Guidelines:
 - Use context7 mcp whenever encountering new libraries, frameworks, or web platform APIs
