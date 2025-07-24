@@ -408,10 +408,12 @@ export function ToolInvocationCard({
       )}
 
       <style jsx>{`
-        @keyframes shimmerSweep {
-          0% { left: -100%; opacity: 0; }
-          50% { left: 50%; opacity: 0.8; }
-          100% { left: 100%; opacity: 0; }
+        @keyframes opalShimmer {
+          0% { left: -200%; opacity: 0; }
+          25% { left: -50%; opacity: 0.6; }
+          50% { left: 0%; opacity: 0.8; }
+          75% { left: 50%; opacity: 0.6; }
+          100% { left: 200%; opacity: 0; }
         }
         
         @keyframes resultPulse {

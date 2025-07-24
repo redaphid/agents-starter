@@ -24,6 +24,8 @@ export function UrlItem({
   const [url, setUrl] = useState(server.url)
   const [error, setError] = useState<string>('')
   const [isValidating, setIsValidating] = useState(false)
+  const [isTesting, setIsTesting] = useState(false)
+  const [availableTools, setAvailableTools] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -110,6 +112,49 @@ export function UrlItem({
     }
   }
 
+  const testConnection = async () => {
+    if (!server.url) return
+    
+    setIsTesting(true)
+    setError('')
+    
+    try {
+      // Test MCP server connection and discover tools
+      const response = await fetch('/api/mcp/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          url: server.url,
+          headers: server.headers 
+        })
+      })
+      
+      const result = await response.json()
+      
+      if (result.success) {
+        setAvailableTools(result.tools || [])
+        onUpdate({ 
+          isReachable: true, 
+          lastChecked: new Date().toISOString() 
+        })
+      } else {
+        setError(result.error || 'Failed to connect to MCP server')
+        onUpdate({ 
+          isReachable: false, 
+          lastChecked: new Date().toISOString() 
+        })
+      }
+    } catch (err) {
+      setError('Network error testing MCP connection')
+      onUpdate({ 
+        isReachable: false, 
+        lastChecked: new Date().toISOString() 
+      })
+    } finally {
+      setIsTesting(false)
+    }
+  }
+
   const handleEdit = () => {
     setIsEditing(true)
   }
@@ -174,8 +219,26 @@ export function UrlItem({
                   {server.isReachable ? '🟢' : '🔴'}
                 </span>
               )}
+              {availableTools.length > 0 && (
+                <span 
+                  className="tools-indicator"
+                  title={`Tools available: ${availableTools.join(', ')}`}
+                >
+                  🔧 {availableTools.length}
+                </span>
+              )}
             </div>
             <div className="url-actions">
+              <button
+                onClick={testConnection}
+                disabled={isTesting}
+                className="url-test"
+                data-testid={`test-url-${index}`}
+                aria-label="Test MCP connection"
+                title="Test connection and discover tools"
+              >
+                {isTesting ? '🌀' : '🔍'}
+              </button>
               <button
                 onClick={handleEdit}
                 className="url-edit"
@@ -235,6 +298,28 @@ export function UrlItem({
             serverIndex={index}
             onHeadersChange={(headers) => onUpdate({ headers })}
           />
+        </div>
+      )}
+
+      {availableTools.length > 0 && (
+        <div 
+          className="tools-section"
+          data-testid={`tools-section-${index}`}
+        >
+          <div className="tools-header">
+            <span className="tools-title">🔧 Available Tools ({availableTools.length})</span>
+          </div>
+          <div className="tools-list">
+            {availableTools.map((tool, toolIndex) => (
+              <span 
+                key={toolIndex}
+                className="tool-badge"
+                title={`Tool: ${tool}`}
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
         </div>
       )}
     </div>

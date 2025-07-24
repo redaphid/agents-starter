@@ -87,8 +87,8 @@ test.describe('MCP Cloudflare Server Test', () => {
     // Take screenshot of LLM settings
     await takeScreenshot(page, 'mcp-cloudflare', '10-llm-settings-opened');
     
-    // Ensure we're using llama3.2
-    const modelSelect = page.locator('select');
+    // Ensure we're using llama3.2 - get the model select dropdown specifically
+    const modelSelect = page.locator('select').nth(1); // Second select is the model dropdown
     await expect(modelSelect).toBeVisible();
     await modelSelect.selectOption('llama3.2:3b');
     
