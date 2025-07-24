@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { McpServerConfig } from './McpDrawer'
+import type { McpServerConfig } from './McpDrawer'
 import { HeadersList } from './HeadersList'
 
 interface UrlItemProps {

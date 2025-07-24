@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { McpServerConfig } from './McpDrawer'
+import type { McpServerConfig } from './McpDrawer'
 import { UrlItem } from './UrlItem'
 
 interface UrlListProps {

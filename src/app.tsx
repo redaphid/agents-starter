@@ -18,7 +18,9 @@ import { Toggle } from "@/components/toggle/Toggle";
 import { Textarea } from "@/components/textarea/Textarea";
 import { MemoizedMarkdown } from "@/components/memoized-markdown";
 import { ToolInvocationCard } from "@/components/tool-invocation-card/ToolInvocationCard";
-import { McpDrawer, type McpServerConfig } from "@/components/mcp-drawer";
+import { McpDrawer } from "@/components/mcp-drawer";
+// Temporarily commenting out type import to debug
+// import type { McpServerConfig } from "@/components/mcp-drawer";
 
 // Icon imports - glyphs of power
 import {
@@ -43,7 +45,7 @@ export default function Chat() {
   });
   const [showDebug, setShowDebug] = useState(false);
   const [textareaHeight, setTextareaHeight] = useState("auto");
-  const [mcpServers, setMcpServers] = useState<McpServerConfig[]>([]);
+  const [mcpServers, setMcpServers] = useState<any[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -109,7 +111,7 @@ export default function Chat() {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  const handleMcpServersChange = (servers: McpServerConfig[]) => {
+  const handleMcpServersChange = (servers: any[]) => {
     setMcpServers(servers);
     console.log('MCP servers updated:', servers);
     // Future: Connect these to the agent configuration
