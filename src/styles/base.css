@@ -1,0 +1,26 @@
+/* Base styles - no Tailwind, pure CSS */
+:root {
+  --retro-black: #0a0a0f;
+  --retro-white: #f7f7ff;
+  --retro-purple: #9d4edd;
+  --retro-pink: #ff006e;
+  --retro-cyan: #00f5ff;
+  --retro-yellow: #ffea00;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--retro-black);
+  color: var(--retro-white);
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+#app {
+  height: 100%;
+}

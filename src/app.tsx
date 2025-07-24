@@ -5,6 +5,7 @@ import type { Message } from "@ai-sdk/react";
 import type { tools } from "./tools";
 
 // Our cosmic styles - the universe demands beauty
+import './styles/base.css';
 import './styles/retrofuture.css';
 import './styles/mcp-drawer.css';
 import './styles/animations.css';
