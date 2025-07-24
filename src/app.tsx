@@ -18,8 +18,7 @@ import { Toggle } from "@/components/toggle/Toggle";
 import { Textarea } from "@/components/textarea/Textarea";
 import { MemoizedMarkdown } from "@/components/memoized-markdown";
 import { ToolInvocationCard } from "@/components/tool-invocation-card/ToolInvocationCard";
-import { McpDrawer } from "@/components/mcp-drawer/McpDrawer";
-import type { McpServerConfig } from "@/components/mcp-drawer/McpDrawer";
+import { McpDrawer, type McpServerConfig } from "@/components/mcp-drawer";
 
 // Icon imports - glyphs of power
 import {
