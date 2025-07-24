@@ -7,7 +7,7 @@ test.describe('Iteration Tests - Streaming Chat Interface', () => {
 
   test('maintains streaming message display', async ({ page }) => {
     // Send a message
-    const input = page.getByPlaceholder('Send a message...')
+    const input = page.getByPlaceholder('Transmit to research station...')
     await input.fill('Hello AI')
     await input.press('Enter')
     
@@ -28,7 +28,7 @@ test.describe('Iteration Tests - Streaming Chat Interface', () => {
 
   test('tool invocations display correctly', async ({ page }) => {
     // Send a message that might trigger a tool
-    const input = page.getByPlaceholder('Send a message...')
+    const input = page.getByPlaceholder('Transmit to research station...')
     await input.fill('What time is it in New York?')
     await input.press('Enter')
     
@@ -38,8 +38,8 @@ test.describe('Iteration Tests - Streaming Chat Interface', () => {
 
   test('maintains responsive UI during streaming', async ({ page }) => {
     // Send a message
-    await page.getByPlaceholder('Send a message...').fill('Tell me a story')
-    await page.getByPlaceholder('Send a message...').press('Enter')
+    await page.getByPlaceholder('Transmit to research station...').fill('Tell me a story')
+    await page.getByPlaceholder('Transmit to research station...').press('Enter')
     
     // UI should remain responsive - test theme toggle works during streaming
     const htmlElement = page.locator('html')

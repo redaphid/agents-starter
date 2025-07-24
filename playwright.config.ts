@@ -2,29 +2,48 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests/e2e',
+  outputDir: './tmp/screenshots/test-results',
   timeout: 30 * 1000,
   expect: {
     timeout: 5000,
   },
-  fullyParallel: true,
+  fullyParallel: false, // Sequential to avoid conflicts
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  workers: 1, // Single worker for isolation
+  reporter: [['html', { outputFolder: './tmp/screenshots/playwright-report' }]],
   use: {
     baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    screenshot: 'on', // Always take screenshots
+    video: 'retain-on-failure', // Also capture video on failures
+    headless: true, // Always run headless by default
+    // Take periodic screenshots during tests
+    contextOptions: {
+      recordVideo: {
+        dir: './tmp/screenshots/videos',
+      },
+    },
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Override to ensure headless
+        headless: true,
+        // Unique browser context for isolation
+        contextOptions: {
+          ignoreHTTPSErrors: true,
+        },
+      },
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: 'npm start',
     port: 5173,
-    reuseExistingServer: true,
+    reuseExistingServer: true, // Use existing server
+    // Add timeout for server startup
+    timeout: 60 * 1000,
   },
 })

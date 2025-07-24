@@ -1,0 +1,115 @@
+/* Message animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.message-appear {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.message-user {
+  animation: fadeInScale 0.2s ease-out;
+}
+
+/* Streaming cursor */
+.streaming-cursor {
+  animation: blink 1s infinite;
+  opacity: 1;
+  color: var(--primary);
+  font-weight: 300;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Send button pulse */
+.send-button-loading {
+  position: relative;
+  overflow: visible;
+}
+
+.send-button-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: currentColor;
+  opacity: 0.3;
+  animation: pulse 1.5s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Smooth scroll */
+.messages-container {
+  scroll-behavior: smooth;
+  scroll-padding-bottom: 20px;
+}
+
+/* Gradient backgrounds */
+.gradient-bg-subtle {
+  background: linear-gradient(
+    135deg,
+    rgba(248, 129, 32, 0.05) 0%,
+    rgba(248, 129, 32, 0.02) 100%
+  );
+}
+
+.dark .gradient-bg-subtle {
+  background: linear-gradient(
+    135deg,
+    rgba(248, 129, 32, 0.1) 0%,
+    rgba(248, 129, 32, 0.05) 100%
+  );
+}
+
+/* Enhanced card hover */
+.message-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.message-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark .message-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}

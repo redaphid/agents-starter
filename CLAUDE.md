@@ -98,9 +98,44 @@ OPENAI_API_KEY=your_openai_api_key
 
 Tests use Vitest with Cloudflare's test utilities. Test files are in `tests/` directory and use the pattern `*.test.ts`.
 
+### Playwright E2E Testing
+
+#### Important Configuration
+- **Isolation**: Tests must be isolated to avoid conflicts with other Playwright instances on the system
+- **Headless Mode**: Always run in headless mode by default (no headed mode unless debugging)
+- **Screenshots & Videos**: 
+  - All test artifacts output to `./tmp/screenshots/`
+  - Screenshots taken automatically every second during test execution
+  - Videos retained on test failures
+  - Always capture screenshots on both success and failure
+- **Single Worker**: Use `workers: 1` to ensure test isolation
+- **Sequential Execution**: `fullyParallel: false` to avoid port conflicts
+
+#### Server Setup
+- Development server runs via: `watch 'npm run start | tee ./tmp/client.log'`
+- Server auto-restarts if down for ~2 seconds
+- Check logs at `./tmp/client.log` for debugging
+- Port: 5173 (configured to reuse existing server)
+
+#### Running Tests
+```bash
+# Run all tests in headless mode
+npx playwright test
+
+# Run specific test
+npx playwright test tests/e2e/chat.spec.ts:8
+
+# With line reporter (cleaner output)
+npx playwright test --reporter=line
+```
+
 ## Code Standards
 
 - TypeScript with strict mode enabled
 - Prettier for formatting (no semicolons, single quotes)
 - Biome for linting (configured in `biome.json`)
 - Path aliases: `@/*` maps to `./src/*`
+
+## Whimsy Guidelines
+
+This project follows thoughtful whimsy principles for enhanced developer experience. See [ON_WHIMSY.md](./ON_WHIMSY.md) for detailed guidelines on when and how to add narrative elements to code while maintaining clarity and professionalism.

@@ -14,28 +14,40 @@
   - link "instructions.":
     - /url: https://github.com/cloudflare/agents-starter?tab=readme-ov-file#use-a-different-ai-model-provider
 - img "Cloudflare Agents"
-- heading "AI Chat Agent" [level=2]
+- heading "Deep Space Research Terminal" [level=2]
 - img
 - button
 - button "Toggle theme":
   - img
 - button "Clear chat history":
   - img
+- paragraph: Hover test message
+- paragraph: 09:56 PM
+- paragraph: Show me the magic of streaming text!
+- paragraph: 09:56 PM
+- paragraph: Message 2
+- paragraph: 09:56 PM
+- paragraph: Message 3
+- paragraph: 09:56 PM
+- paragraph: Message 4
+- paragraph: 09:56 PM
+- paragraph: Message 5
+- paragraph: 09:56 PM
+- paragraph: Hover test message
+- paragraph: 09:58 PM
+- paragraph: Show me the magic of streaming text!
+- paragraph: 09:58 PM
+- paragraph: Message 2
+- paragraph: 09:58 PM
+- paragraph: Message 3
+- paragraph: 09:58 PM
+- paragraph: Message 4
+- paragraph: 09:58 PM
 - paragraph: Hello, AI!
-- paragraph: 09:42 PM
+- paragraph: 10:04 PM
 - paragraph: Test message
-- paragraph: 09:42 PM
-- paragraph: Hello, AI!
-- paragraph: 09:44 PM
-- paragraph: Hello AI
-- paragraph: 09:44 PM
-- paragraph: Test message
-- paragraph: 09:44 PM
-- paragraph: What time is it in New York?
-- paragraph: 09:44 PM
-- paragraph: Tell me a story
-- paragraph: 09:44 PM
-- textbox "Send a message..."
+- paragraph: 10:04 PM
+- textbox "Transmit to research station..."
 - button "Send message" [disabled]:
   - img
 ```

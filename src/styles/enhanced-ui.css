@@ -1,0 +1,163 @@
+/* Enhanced UI Styles */
+
+/* Glassmorphism effect for cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glow effects */
+.glow-orange {
+  box-shadow: 0 0 20px rgba(248, 129, 32, 0.3);
+}
+
+.glow-orange:hover {
+  box-shadow: 0 0 30px rgba(248, 129, 32, 0.5);
+}
+
+/* Animated gradient background */
+.animated-gradient {
+  background: linear-gradient(
+    45deg,
+    #1a1a1a,
+    #2a2a2a,
+    #1a1a1a
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Message entrance animations */
+.message-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--slide-from, 20px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.message-user {
+  --slide-from: 20px;
+}
+
+.message-assistant {
+  --slide-from: -20px;
+}
+
+/* Floating animation for welcome card */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Input focus glow */
+.input-glow:focus-within {
+  box-shadow: 0 0 0 3px rgba(248, 129, 32, 0.2);
+  transition: box-shadow 0.2s ease;
+}
+
+/* Smooth height transitions */
+.smooth-height {
+  transition: height 0.2s ease;
+}
+
+/* Loading dots with stagger */
+.loading-dots {
+  display: flex;
+  gap: 4px;
+  padding: 12px;
+}
+
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(248, 129, 32, 0.8);
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.loading-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Subtle parallax effect */
+.parallax-bg {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(248, 129, 32, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(248, 129, 32, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Enhanced scrollbar */
+.messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background: rgba(248, 129, 32, 0.3);
+  border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(248, 129, 32, 0.5);
+}
