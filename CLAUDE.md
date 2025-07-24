@@ -139,3 +139,25 @@ npx playwright test --reporter=line
 ## Whimsy Guidelines
 
 This project follows thoughtful whimsy principles for enhanced developer experience. See [ON_WHIMSY.md](./ON_WHIMSY.md) for detailed guidelines on when and how to add narrative elements to code while maintaining clarity and professionalism.
+
+## No-Tailwind Migration
+
+The `no-nextjs` branch contains a migration from Tailwind CSS to simple CSS Grid/Flexbox layouts. See [NO_TAILWIND_MIGRATION.md](./NO_TAILWIND_MIGRATION.md) for:
+- Detailed migration plan and rationale
+- CSS architecture without build-time processing
+- Observatory theme preservation strategies
+- Implementation roadmap
+
+## Local AI with Ollama
+
+This project supports using Ollama for local AI inference instead of OpenAI. Ollama runs large language models locally, providing:
+- Complete data privacy (no API calls to external services)
+- No API costs
+- Consistent model behavior
+- Support for models like deepseek-r1:8b, llama2, mistral, etc.
+
+To use Ollama:
+1. Install Ollama from https://ollama.ai
+2. Pull a model: `ollama pull deepseek-r1:8b`
+3. Ensure Ollama is running: `ollama serve`
+4. Update the model configuration in `src/server.ts` (see implementation details below)
