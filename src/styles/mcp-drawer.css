@@ -1,0 +1,415 @@
+/* MCP Drawer Specific Styles - Where server configurations dance */
+
+/* Drawer positioning and animation */
+.drawer-container {
+  position: relative;
+  height: 100%;
+  z-index: 10;
+}
+
+.drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  overflow-y: auto;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Drawer header styling */
+.drawer-title {
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  color: var(--retro-cyan);
+  text-shadow: 0 0 20px currentColor;
+  margin-bottom: 0.5rem;
+}
+
+.drawer-subtitle {
+  color: var(--retro-white);
+  opacity: 0.7;
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* URL List styling */
+.url-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.url-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.url-list-title {
+  color: var(--retro-purple);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Add button - the portal opener */
+.add-url-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--retro-purple), var(--retro-pink));
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  color: var(--retro-white);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-url-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.add-url-button:hover::before {
+  transform: translateX(0);
+}
+
+.add-url-button:hover {
+  box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);
+  transform: translateY(-1px);
+}
+
+.add-icon {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Empty state - the void awaits */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  opacity: 0.8;
+}
+
+.empty-message {
+  color: var(--retro-cyan);
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.empty-hint {
+  color: var(--retro-white);
+  opacity: 0.6;
+  font-size: 0.875rem;
+}
+
+/* Server list container */
+.servers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* URL Item styling */
+.url-item {
+  background: rgba(10, 10, 15, 0.6);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.url-item:hover {
+  border-color: rgba(0, 245, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+}
+
+.url-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.url-edit-mode,
+.url-display-mode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.url-display {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  color: var(--retro-cyan);
+  font-size: 0.875rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Status indicators */
+.url-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+  cursor: help;
+}
+
+.status-indicator.reachable {
+  filter: drop-shadow(0 0 4px #0f0);
+}
+
+.status-indicator.unreachable {
+  filter: drop-shadow(0 0 4px #f00);
+}
+
+/* Action buttons */
+.url-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.url-edit,
+.url-remove,
+.url-save,
+.url-cancel {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.url-edit:hover,
+.url-remove:hover {
+  background: rgba(157, 78, 221, 0.2);
+  border-color: rgba(157, 78, 221, 0.5);
+}
+
+.url-save {
+  color: var(--retro-green);
+  border-color: rgba(58, 134, 255, 0.3);
+}
+
+.url-save:hover:not(:disabled) {
+  background: rgba(58, 134, 255, 0.2);
+  border-color: var(--retro-green);
+}
+
+.url-cancel {
+  color: var(--retro-pink);
+  border-color: rgba(255, 0, 110, 0.3);
+}
+
+.url-cancel:hover {
+  background: rgba(255, 0, 110, 0.2);
+  border-color: var(--retro-pink);
+}
+
+/* Error messages - cosmic warnings */
+.url-error {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 0, 110, 0.1);
+  border: 1px solid rgba(255, 0, 110, 0.3);
+  border-radius: 4px;
+  color: var(--retro-pink);
+  font-size: 0.75rem;
+  animation: var(--anim-glow);
+}
+
+/* Headers section */
+.headers-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  border-radius: 4px;
+  color: var(--retro-cyan);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.headers-toggle:hover {
+  background: rgba(0, 245, 255, 0.1);
+  border-color: rgba(0, 245, 255, 0.4);
+}
+
+.expand-icon {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.headers-hint {
+  margin-left: auto;
+  opacity: 0.6;
+  font-size: 0.75rem;
+}
+
+/* Headers list */
+.headers-list {
+  background: rgba(0, 245, 255, 0.05);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.headers-description {
+  color: var(--retro-white);
+  opacity: 0.8;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.headers-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.header-entry {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.header-name,
+.header-value {
+  flex: 1;
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--retro-white);
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.header-name:focus,
+.header-value:focus {
+  outline: none;
+  border-color: var(--retro-cyan);
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+
+.header-remove {
+  background: transparent;
+  border: 1px solid rgba(255, 0, 110, 0.3);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  color: var(--retro-pink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-remove:hover {
+  background: rgba(255, 0, 110, 0.2);
+  border-color: var(--retro-pink);
+}
+
+/* Add header button */
+.add-header-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 245, 255, 0.1);
+  border: 1px solid rgba(0, 245, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  color: var(--retro-cyan);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.add-header-button:hover {
+  background: rgba(0, 245, 255, 0.2);
+  border-color: var(--retro-cyan);
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.3);
+}
+
+/* Hints section */
+.hints-details {
+  margin-top: 1rem;
+  background: rgba(157, 78, 221, 0.05);
+  border: 1px solid rgba(157, 78, 221, 0.2);
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.hints-summary {
+  color: var(--retro-purple);
+  cursor: pointer;
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.hints-summary:hover {
+  color: var(--retro-cyan);
+}
+
+.hints-content {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hints-content code {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(157, 78, 221, 0.3);
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--retro-yellow);
+}
+
+.hint-note {
+  color: var(--retro-white);
+  opacity: 0.6;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* Footer */
+.url-list-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(157, 78, 221, 0.2);
+}
+
+.footer-note {
+  color: var(--retro-white);
+  opacity: 0.6;
+  font-size: 0.875rem;
+  text-align: center;
+  font-style: italic;
+}
