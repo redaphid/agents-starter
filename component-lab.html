@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Lab</title>
+  <style>
+    /* Copy our opalescent CSS inline for zero-setup */
+    :root {
+      --hue-primary: 250;
+      --hue-secondary: 190;
+      --hue-tertiary: 50;
+      --hue-accent: 300;
+      
+      --opal-white: oklch(97% 0.008 var(--hue-primary));
+      --opal-light: oklch(94% 0.012 var(--hue-secondary));
+      --opal-mid: oklch(90% 0.018 var(--hue-tertiary));
+      
+      --edge-violet: oklch(75% 0.06 var(--hue-primary));
+      --edge-cyan: oklch(80% 0.05 var(--hue-secondary));
+      --edge-gold: oklch(85% 0.04 var(--hue-tertiary));
+      --edge-purple: oklch(78% 0.05 var(--hue-accent));
+      
+      --bg-dark: oklch(12% 0.015 var(--hue-primary));
+      --text: oklch(25% 0.02 var(--hue-primary));
+      --text-dim: oklch(50% 0.015 var(--hue-secondary));
+      --text-light: oklch(95% 0.01 var(--hue-primary));
+      
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2rem;
+      --space-xl: 3rem;
+      
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.125rem;
+      --text-xl: 1.25rem;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: 
+        radial-gradient(circle at 20% 20%, var(--edge-violet), transparent 65%),
+        radial-gradient(circle at 80% 20%, var(--edge-cyan), transparent 65%),
+        radial-gradient(circle at 80% 80%, var(--edge-gold), transparent 65%),
+        radial-gradient(circle at 20% 80%, var(--edge-purple), transparent 65%),
+        radial-gradient(ellipse at center, var(--opal-white) 30%, var(--opal-light) 70%, var(--bg-dark) 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .lab-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .lab-header {
+      background: var(--opal-white);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.15) h / 0.3);
+      box-shadow: 0 4px 16px oklch(from var(--bg-dark) l c h / 0.08);
+    }
+
+    .lab-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .lab-subtitle {
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .component-showcase {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: 1fr;
+    }
+
+    .component-demo {
+      background: 
+        radial-gradient(circle at 5% 5%, var(--edge-violet), transparent 60%),
+        radial-gradient(circle at 95% 5%, var(--edge-cyan), transparent 60%),
+        radial-gradient(circle at 95% 95%, var(--edge-gold), transparent 60%),
+        radial-gradient(circle at 5% 95%, var(--edge-purple), transparent 60%),
+        radial-gradient(ellipse 70% 85% at center, var(--opal-white) 0%, var(--opal-light) 70%, transparent 100%);
+      border: 2px solid oklch(from var(--edge-violet) l calc(c * 0.4) h / 0.4);
+      border-radius: 16px;
+      padding: 0;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px oklch(from var(--bg-dark) l c h / 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .component-demo::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--edge-violet), var(--edge-cyan), var(--edge-gold), var(--edge-purple));
+      opacity: 0.6;
+    }
+    
+    .demo-content {
+      padding: 30px;
+    }
+
+    .demo-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 0 0 20px 0;
+      padding: 8px 12px;
+      background: 
+        linear-gradient(135deg, var(--edge-violet), var(--edge-cyan));
+      border-radius: 6px;
+      display: inline-block;
+      color: var(--opal-white);
+      box-shadow: 0 2px 8px oklch(from var(--edge-violet) l c h / 0.3);
+      border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.6) h / 0.4);
+    }
+
+    /* Message Styles */
+    .message {
+      padding: var(--space-lg);
+      border-radius: 16px;
+      position: relative;
+      backdrop-filter: blur(10px);
+      line-height: 1.5;
+      font-size: var(--text-base);
+    }
+
+    .message-assistant {
+      background: 
+        radial-gradient(ellipse at top left, var(--edge-gold), transparent 80%),
+        radial-gradient(ellipse at bottom right, var(--edge-purple), transparent 80%),
+        radial-gradient(ellipse 80% 70% at center, var(--opal-white) 0%, var(--opal-light) 100%);
+      border: 1px solid oklch(from var(--edge-gold) l calc(c * 0.2) h / 0.2);
+      margin-left: 5%;
+      margin-right: 10%;
+      box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
+    }
+
+    .message-user {
+      background: 
+        radial-gradient(ellipse at top left, var(--edge-cyan), transparent 80%),
+        radial-gradient(ellipse at bottom right, var(--edge-violet), transparent 80%),
+        radial-gradient(ellipse 80% 70% at center, var(--opal-white) 0%, var(--opal-light) 100%);
+      border: 1px solid oklch(from var(--edge-cyan) l calc(c * 0.2) h / 0.2);
+      margin-left: 10%;
+      margin-right: 5%;
+      box-shadow: 0 2px 8px oklch(from var(--bg-dark) l c h / 0.03);
+    }
+
+    /* Tool card styling - improved */
+    .tool-card {
+      background: 
+        linear-gradient(135deg, 
+          oklch(from var(--edge-violet) calc(l - 0.1) calc(c * 0.3) h) 0%,
+          oklch(from var(--bg-dark) calc(l + 0.08) calc(c * 0.2) h) 100%
+        );
+      border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.4) h / 0.4);
+      border-radius: 12px;
+      padding: 0;
+      margin: var(--space-md) 0;
+      color: var(--text-light);
+      overflow: hidden;
+      box-shadow: 
+        0 4px 12px oklch(from var(--bg-dark) l c h / 0.3),
+        inset 0 1px 0 oklch(from var(--edge-violet) l c h / 0.2);
+    }
+
+    .tool-header {
+      background: 
+        linear-gradient(90deg,
+          oklch(from var(--edge-violet) calc(l - 0.05) calc(c * 0.4) h) 0%,
+          oklch(from var(--edge-cyan) calc(l - 0.05) calc(c * 0.4) h) 100%
+        );
+      padding: var(--space-md);
+      margin: 0;
+      font-weight: 600;
+      font-size: var(--text-base);
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      border-bottom: 1px solid oklch(from var(--edge-violet) l calc(c * 0.2) h / 0.3);
+    }
+
+    .tool-status {
+      background: oklch(65% 0.2 145);
+      color: var(--opal-white);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tool-body {
+      padding: var(--space-md);
+    }
+
+    .tool-section {
+      margin: var(--space-md) 0;
+    }
+
+    .tool-section:first-child {
+      margin-top: 0;
+    }
+
+    .tool-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .tool-section strong {
+      display: block;
+      margin-bottom: var(--space-sm);
+      color: oklch(from var(--text-light) calc(l - 0.1) c h);
+      font-weight: 600;
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
+    }
+
+    .tool-code {
+      background: oklch(from var(--bg-dark) calc(l + 0.03) c h);
+      border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.2) h / 0.2);
+      padding: var(--space-md);
+      border-radius: 8px;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: var(--space-sm) 0;
+      color: oklch(88% 0.02 var(--hue-secondary));
+      white-space: pre;
+    }
+
+    .tool-result {
+      background: oklch(from var(--bg-dark) calc(l + 0.05) c h);
+      border: 1px solid oklch(from var(--edge-gold) l calc(c * 0.3) h / 0.3);
+      padding: var(--space-md);
+      border-radius: 8px;
+      margin: var(--space-sm) 0;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      color: oklch(85% 0.03 var(--hue-tertiary));
+    }
+
+    .timestamp {
+      font-size: var(--text-sm);
+      opacity: 0.7;
+      margin-top: var(--space-sm);
+      color: var(--text-dim);
+      font-style: italic;
+      text-align: right;
+    }
+
+    /* ✨ MAGICAL TOOL BUBBLE - Eye-Inspired Design 
+     * 
+     * DESIGN DECISIONS (2025-07-24):
+     * - Inspired by opalescent creature eyes provided by user
+     * - Three-layer gradient system mimics iris depth and iridescence  
+     * - OKLCH colors for perceptually uniform transitions
+     * - 3s glow animation cycle feels magical without being distracting
+     * - Status badges use friendly language ("CAST", "DONE") vs technical ("SUCCESS")
+     * 
+     * CONTROVERSY RESOLVED:
+     * - Initial concern: might be "too magical" for professional use
+     * - Decision: user explicitly wanted excitement over conservatism
+     * - Result: transforms boring JSON dumps into celebration of AI capabilities
+     * 
+     * CREATOR/CRITIC CONSENSUS:
+     * - Creator: designed for emotional impact and user delight
+     * - Critic: approved for production - balances magic with usability
+     * - User feedback: "That is AWESOME! We need to show it off"
+     */
+    .tool-bubble-magic {
+      background: 
+        /* Outer iris ring */
+        radial-gradient(ellipse at 20% 30%, 
+          oklch(75% 0.25 280) 0%,
+          oklch(70% 0.3 200) 25%,
+          oklch(65% 0.35 160) 50%,
+          transparent 70%
+        ),
+        /* Inner depth */
+        radial-gradient(ellipse at 60% 70%, 
+          oklch(80% 0.2 45) 0%,
+          oklch(75% 0.25 320) 30%,
+          transparent 60%
+        ),
+        /* Central highlight */
+        radial-gradient(ellipse 80% 70% at center, 
+          var(--opal-white) 0%, 
+          oklch(94% 0.02 250) 40%,
+          transparent 100%
+        );
+      
+      border: 2px solid oklch(75% 0.2 280 / 0.6);
+      border-radius: 20px;
+      padding: 0;
+      margin: var(--space-lg) 0;
+      overflow: hidden;
+      position: relative;
+      
+      box-shadow: 
+        0 8px 32px oklch(75% 0.25 280 / 0.2),
+        0 2px 8px oklch(70% 0.3 200 / 0.3),
+        inset 0 2px 0 oklch(95% 0.1 280 / 0.5);
+      
+      animation: toolGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes toolGlow {
+      0%, 100% { 
+        box-shadow: 
+          0 8px 32px oklch(75% 0.25 280 / 0.2),
+          0 2px 8px oklch(70% 0.3 200 / 0.3),
+          inset 0 2px 0 oklch(95% 0.1 280 / 0.5);
+      }
+      50% { 
+        box-shadow: 
+          0 12px 48px oklch(75% 0.25 280 / 0.3),
+          0 4px 16px oklch(70% 0.3 200 / 0.4),
+          inset 0 2px 0 oklch(95% 0.1 280 / 0.7);
+      }
+    }
+
+    .tool-eye-header {
+      background: 
+        linear-gradient(135deg,
+          oklch(70% 0.2 280) 0%,
+          oklch(75% 0.25 200) 50%,
+          oklch(80% 0.2 160) 100%
+        );
+      padding: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      border-bottom: 1px solid oklch(75% 0.15 280 / 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-eye-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, oklch(95% 0.1 280), transparent);
+      opacity: 0.8;
+    }
+
+    .tool-icon {
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: 
+        radial-gradient(circle at 30% 30%,
+          oklch(95% 0.15 60) 0%,
+          oklch(85% 0.2 280) 50%,
+          oklch(70% 0.25 200) 100%
+        );
+      border-radius: 50%;
+      border: 2px solid oklch(95% 0.1 280 / 0.6);
+      box-shadow: 
+        0 4px 12px oklch(70% 0.25 280 / 0.3),
+        inset 0 1px 0 oklch(98% 0.05 280);
+    }
+
+    .tool-info {
+      flex: 1;
+      color: var(--opal-white);
+    }
+
+    .tool-name {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      margin-bottom: 2px;
+      text-shadow: 0 1px 2px oklch(30% 0.1 280 / 0.5);
+    }
+
+    .tool-action {
+      font-size: var(--text-sm);
+      opacity: 0.9;
+      font-style: italic;
+    }
+
+    .tool-status-magic {
+      background: 
+        radial-gradient(circle,
+          oklch(85% 0.2 45) 0%,
+          oklch(75% 0.25 60) 100%
+        );
+      color: var(--opal-white);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid oklch(90% 0.15 45 / 0.6);
+      box-shadow: 
+        0 2px 8px oklch(85% 0.2 45 / 0.4),
+        inset 0 1px 0 oklch(95% 0.1 45 / 0.7);
+    }
+
+    .tool-result-showcase {
+      padding: var(--space-lg);
+      position: relative;
+      background: 
+        radial-gradient(ellipse at center,
+          var(--opal-white) 0%,
+          oklch(96% 0.01 280) 60%,
+          transparent 100%
+        );
+    }
+
+    .result-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(ellipse,
+          oklch(85% 0.15 200 / 0.1) 0%,
+          oklch(80% 0.2 280 / 0.05) 50%,
+          transparent 100%
+        );
+      animation: resultPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes resultPulse {
+      0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    .result-text {
+      position: relative;
+      z-index: 2;
+      font-size: var(--text-lg);
+      font-weight: 500;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.6;
+      text-shadow: 0 1px 2px oklch(95% 0.05 280 / 0.3);
+    }
+
+    .tool-details {
+      border-top: 1px solid oklch(75% 0.15 280 / 0.2);
+      padding: var(--space-sm) var(--space-md);
+      background: oklch(94% 0.01 280);
+    }
+
+    .tool-details summary {
+      font-size: var(--text-sm);
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: var(--space-xs) 0;
+      font-weight: 600;
+    }
+
+    .tool-details summary:hover {
+      color: var(--text);
+    }
+
+    .tool-json {
+      padding: var(--space-sm) 0;
+      font-size: var(--text-sm);
+    }
+
+    .tool-json code {
+      background: oklch(90% 0.02 280);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 4px;
+      font-family: 'SF Mono', Monaco, monospace;
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+
+    /* Grid layout for side-by-side comparison */
+    @media (min-width: 768px) {
+      .component-showcase {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="lab-container">
+    <div class="lab-header">
+      <div class="lab-title">🧪 Component Lab</div>
+      <div class="lab-subtitle">Zero-setup component inspection • Live edit the HTML below</div>
+    </div>
+
+    <div class="component-showcase">
+      <div class="component-demo">
+        <div class="demo-content">
+          <div class="demo-label">User Message</div>
+          <div class="message message-user">
+            <p>How many fingers does a human hand have?</p>
+            <div class="timestamp">12:35 AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-demo">
+        <div class="demo-content">
+          <div class="demo-label">Assistant Response</div>
+          <div class="message message-assistant">
+            <p>There are 5 fingers on an average human hand.</p>
+            <div class="timestamp">12:35 AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-demo" style="grid-column: 1 / -1;">
+        <div class="demo-content">
+          <div class="demo-label">✨ Magic Tool Invocation (Eye-Inspired)</div>
+          <!-- 
+            COMPONENT DESIGN NOTES (2025-07-24):
+            
+            This magical tool bubble represents a fundamental UX transformation:
+            BEFORE: Users saw boring JSON dumps of AI function calls
+            AFTER: Users see exciting "spell casting" that celebrates AI capabilities
+            
+            Key innovations:
+            - Eye-inspired gradients create depth and iridescence 
+            - Friendly status language ("CAST", "DONE") vs technical jargon
+            - Result prominently displayed, technical details hidden
+            - Smooth animations make AI feel alive and magical
+            
+            Creator/Critic process outcome:
+            - Creator: focused on emotional impact and user delight
+            - Critic: validated production readiness and accessibility  
+            - Consensus: ship it - this makes AI feel genuinely exciting
+            
+            User reaction: "That is AWESOME! We need to show it off"
+          -->
+          <div class="message message-assistant">
+            <div class="tool-bubble-magic">
+              <div class="tool-eye-header">
+                <div class="tool-icon">🔮</div>
+                <div class="tool-info">
+                  <div class="tool-name">Echo Tool</div>
+                  <div class="tool-action">Broadcasting message...</div>
+                </div>
+                <div class="tool-status-magic">✨ CAST</div>
+              </div>
+              
+              <div class="tool-result-showcase">
+                <div class="result-glow"></div>
+                <div class="result-text">"There are 5 fingers on an average human hand."</div>
+              </div>
+              
+              <details class="tool-details">
+                <summary>Technical Details</summary>
+                <div class="tool-json">
+                  <strong>Input:</strong>
+                  <code>{"message": "There are 5 fingers..."}</code>
+                </div>
+              </details>
+            </div>
+            <div class="timestamp">12:33 AM</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="component-demo" style="grid-column: 1 / -1;">
+        <div class="demo-content">
+          <div class="demo-label">🎯 Multiple Tool Examples</div>
+          <div class="message message-assistant">
+            <div class="tool-bubble-magic">
+              <div class="tool-eye-header">
+                <div class="tool-icon">🌤️</div>
+                <div class="tool-info">
+                  <div class="tool-name">Weather Check</div>
+                  <div class="tool-action">Getting San Francisco weather...</div>
+                </div>
+                <div class="tool-status-magic">☀️ DONE</div>
+              </div>
+              
+              <div class="tool-result-showcase">
+                <div class="result-glow"></div>
+                <div class="result-text">Sunny, 72°F with light breeze. Perfect day!</div>
+              </div>
+            </div>
+            
+            <div class="tool-bubble-magic" style="margin-top: 16px;">
+              <div class="tool-eye-header">
+                <div class="tool-icon">📝</div>
+                <div class="tool-info">
+                  <div class="tool-name">Task Creator</div>
+                  <div class="tool-action">Scheduling reminder...</div>
+                </div>
+                <div class="tool-status-magic">⏰ SET</div>
+              </div>
+              
+              <div class="tool-result-showcase">
+                <div class="result-glow"></div>
+                <div class="result-text">Reminder set for tomorrow at 9 AM: "Review design feedback"</div>
+              </div>
+            </div>
+            
+            <div class="timestamp">12:34 AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-demo" style="grid-column: 1 / -1;">
+        <div class="demo-label">Markdown Content</div>
+        <div class="message message-assistant">
+          <h3>Code Example</h3>
+          <p>Here's how to count fingers:</p>
+          <pre><code>function countFingers() {
+  return 5; // Standard human hand
+}</code></pre>
+          <p>This returns the <code>standard</code> count.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('🧪 Component Lab loaded!');
+    console.log('💡 Tip: Right-click → Inspect Element to edit styles live');
+    console.log('🎨 Edit this HTML file directly to test different content');
+  </script>
+</body>
+</html>
