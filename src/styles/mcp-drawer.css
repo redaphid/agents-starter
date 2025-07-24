@@ -11,7 +11,7 @@
   .drawer-toggle {
     position: absolute;
     top: 50%;
-    right: -2rem; /* Attach to right side of chat (for left-sliding drawer) */
+    right: 0.5rem; /* Visible inside the chat edge */
     transform: translateY(-50%);
     z-index: 1001;
     
