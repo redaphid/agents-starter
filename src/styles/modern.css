@@ -118,6 +118,7 @@
     padding: var(--space-lg);
     gap: var(--space-md);
     container-type: size;
+    position: relative; /* For drawer handle positioning */
     
     background: 
       /* Very subtle corner opalescence */
