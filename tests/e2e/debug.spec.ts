@@ -4,11 +4,18 @@ test('debug app loading', async ({ page }) => {
   const errors: string[] = []
   
   // Set up console listener BEFORE navigation
-  page.on('console', msg => {
-    console.log(`Console [${msg.type()}]:`, msg.text())
+  page.on('console', async msg => {
+    const args = await Promise.all(msg.args().map(arg => arg.jsonValue().catch(() => 'Complex object')))
+    console.log(`Console [${msg.type()}]:`, msg.text(), args.length > 0 ? args : '')
     if (msg.type() === 'error') {
       errors.push(msg.text())
     }
+  })
+  
+  // Also capture page errors
+  page.on('pageerror', error => {
+    console.log('Page error:', error.message)
+    errors.push(error.message)
   })
   
   // Navigate to the app
@@ -27,7 +34,8 @@ test('debug app loading', async ({ page }) => {
   // Get inner HTML to see what's rendered
   if (appDiv) {
     const innerHTML = await appDiv.innerHTML()
-    console.log('App innerHTML:', innerHTML.substring(0, 200) + '...')
+    console.log('App innerHTML length:', innerHTML.length)
+    console.log('App innerHTML:', innerHTML)
   }
   
   // Check for specific elements
