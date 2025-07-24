@@ -4,11 +4,9 @@ import { useAgentChat } from "agents/ai-react";
 import type { Message } from "@ai-sdk/react";
 import type { tools } from "./tools";
 
-// Our cosmic styles - the universe demands beauty
-import './styles/base.css';
-import './styles/retrofuture.css';
+// Modern CSS with 2025 conventions - OKLCH, container queries, cascade layers
+import './styles/modern.css';
 import './styles/mcp-drawer.css';
-import './styles/animations.css';
 
 // Component imports - each a star in our constellation
 import { Button } from "@/components/button/Button";

@@ -163,3 +163,7 @@ To use Ollama:
 2. Pull a model: `ollama pull deepseek-r1:8b`
 3. Ensure Ollama is running: `ollama serve`
 4. Update the model configuration in `src/server.ts` (see implementation details below)
+
+## Claude Code Memories
+
+- Use context7 mcp whenever you see a new library being used in a project, in order to get the latest docs on how to use it.

@@ -1,0 +1,218 @@
+/* Modern CSS with 2025 conventions */
+
+@layer reset, base, components, utilities;
+
+@layer reset {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@layer base {
+  :root {
+    /* OKLCH color system - perceptually uniform */
+    --base-hue: 270;
+    --accent-hue: 200;
+    
+    /* Base colors using OKLCH */
+    --bg: oklch(8% 0.05 var(--base-hue));
+    --surface: oklch(15% 0.08 var(--base-hue));
+    --text: oklch(95% 0.02 var(--base-hue));
+    --accent: oklch(70% 0.25 var(--accent-hue));
+    --primary: oklch(65% 0.3 var(--base-hue));
+    
+    /* Derived colors using color-mix */
+    --surface-hover: color-mix(in oklch, var(--surface) 80%, var(--accent) 20%);
+    --accent-dim: oklch(from var(--accent) calc(l * 0.3) c h);
+    --glow: oklch(from var(--primary) l c h / 0.3);
+    
+    /* Fluid spacing using modern units */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    
+    /* Typography scale */
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  #app {
+    height: 100dvh; /* Dynamic viewport height */
+    container-type: size;
+  }
+}
+
+@layer components {
+  .app-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-areas: "chat drawer";
+    height: 100%;
+    container-type: inline-size;
+  }
+
+  .chat-container {
+    grid-area: chat;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: var(--space-lg);
+    gap: var(--space-md);
+    container-type: size;
+    
+    background: 
+      radial-gradient(circle at 30% 70%, var(--glow), transparent 50%),
+      linear-gradient(135deg, var(--surface) 0%, color-mix(in oklch, var(--surface) 95%, var(--primary) 5%) 100%);
+    
+    border-radius: var(--space-sm);
+    backdrop-filter: blur(20px);
+    
+    /* Ensure it never exceeds viewport */
+    max-height: 100dvh;
+    min-height: 0; /* Allow flex shrinking */
+  }
+
+  .chat-header {
+    padding: var(--space-md);
+    background: color-mix(in oklch, var(--surface) 70%, transparent 30%);
+    border-radius: var(--space-xs);
+    border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent 70%);
+  }
+
+  .messages-area {
+    overflow-y: auto;
+    padding: var(--space-sm);
+    
+    /* Scrollbar styling */
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-dim) transparent;
+    
+    /* Ensure messages don't push input off screen */
+    min-height: 0;
+    flex: 1;
+  }
+
+  .input-area {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: var(--surface-hover);
+    border-radius: var(--space-sm);
+    border: 1px solid color-mix(in oklch, var(--accent) 40%, transparent 60%);
+    
+    /* Always visible at bottom using modern units */
+    position: sticky;
+    bottom: 0;
+    
+    /* Ensure it's always accessible */
+    flex-shrink: 0;
+  }
+
+  .message-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: var(--text-base);
+    resize: vertical;
+    min-height: 2.5rem;
+    max-height: 8rem;
+    
+    &::placeholder {
+      color: color-mix(in oklch, var(--text) 60%, transparent 40%);
+    }
+
+    &:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  }
+
+  .drawer-container {
+    grid-area: drawer;
+    position: relative;
+    container-type: inline-size;
+  }
+
+  .drawer-toggle {
+    position: fixed;
+    inset-inline-end: 300px;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    
+    width: 40px;
+    height: 80px;
+    
+    background: var(--surface);
+    border: 1px solid var(--accent-dim);
+    border-inline-end: none;
+    border-radius: var(--space-xs) 0 0 var(--space-xs);
+    
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    
+    transition: all 200ms ease;
+    
+    &:hover {
+      background: var(--surface-hover);
+      transform: translateY(-50%) translateX(-0.25rem);
+      box-shadow: 0 0 1rem var(--glow);
+    }
+  }
+
+  /* Container query for responsive behavior */
+  @container (max-width: 800px) {
+    .app-container {
+      grid-template-columns: 1fr;
+      grid-template-areas: "chat";
+    }
+    
+    .drawer-container {
+      display: none;
+    }
+  }
+
+  /* Enhanced accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: oklch(95% 0.02 var(--base-hue));
+      --surface: oklch(90% 0.05 var(--base-hue));
+      --text: oklch(15% 0.05 var(--base-hue));
+    }
+  }
+}
+
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

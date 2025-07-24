@@ -74,6 +74,7 @@
   position: relative;
   z-index: 2;
   margin: 2rem;
+  max-height: calc(100vh - 4rem);
   background: rgba(26, 26, 46, 0.8);
   border: 1px solid rgba(157, 78, 221, 0.3);
   border-radius: 12px;
