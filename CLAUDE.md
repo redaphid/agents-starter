@@ -184,6 +184,32 @@ Popular models to try:
 - `qwen2.5-coder:7b` - Great for coding tasks
 - `mistral-nemo:12b` - Balanced performance
 
+## Creator/Critic Design Methodology
+
+This project uses a dual-role design iteration process for complex UI components:
+
+### Process Overview
+1. **Creator Phase**: Design and implement new components with focus on user experience and visual impact
+2. **Critic Phase**: Review designs for usability, accessibility, performance, and production readiness  
+3. **Documentation**: Both roles maintain private notes and decisions are documented in code
+4. **Iteration**: Cycle continues until consensus is reached
+
+### Implementation Guidelines
+- **Separate note-taking**: Creator notes in `notes/creator/`, Critic notes in `notes/critic/`
+- **Timestamped iterations**: Each round numbered and dated for tracking
+- **Screenshot progression**: Visual documentation in `design-progression/screenshots/`
+- **Code documentation**: Final design decisions documented in CSS comments and HTML
+- **Commit after each phase**: Detailed commit messages capture the methodology
+
+### Benefits
+- **Balanced perspective**: Creative vision + practical constraints
+- **Quality assurance**: Built-in review process catches issues early
+- **Decision transparency**: Why choices were made is preserved
+- **Iterative improvement**: Natural progression toward optimal solutions
+
+### Example Usage
+See the magical tool bubble designs (Round 1) for a complete example of this methodology in action. The process transformed boring JSON tool outputs into exciting, eye-inspired magical experiences that celebrate AI capabilities.
+
 ## Claude Code Memories
 
 - Use context7 mcp whenever you see a new library being used in a project, in order to get the latest docs on how to use it.
