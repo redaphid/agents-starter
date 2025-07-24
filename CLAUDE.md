@@ -186,30 +186,83 @@ Popular models to try:
 
 ## Creator/Critic Design Methodology
 
-This project uses a dual-role design iteration process for complex UI components:
+**EXACT METHODOLOGY**: Continue Creator/Critic cycles until both roles agree OR 100 iterations maximum. Iterate even if appearing "done". Continue after compacting events. Commit frequently.
 
-### Process Overview
-1. **Creator Phase**: Design and implement new components with focus on user experience and visual impact
-2. **Critic Phase**: Review designs for usability, accessibility, performance, and production readiness  
-3. **Documentation**: Both roles maintain private notes and decisions are documented in code
-4. **Iteration**: Cycle continues until consensus is reached
+### Detailed Process Flow
+1. **Creator Phase**
+   - Focus on user experience and visual impact
+   - Design/implement new components or iterations
+   - Write private notes to `notes/creator/roundN-[topic].md`
+   - Update `component-lab.html` with new designs
+   - Document design decisions in CSS comments
+   - Take screenshots of current state
+   - Mark Creator todo as completed
+
+2. **Critic Phase**  
+   - Review designs for usability, accessibility, performance, production readiness
+   - Write private notes to `notes/critic/roundN-critique.md`
+   - Provide specific feedback and assessment
+   - Take screenshots of review state
+   - Determine if more iteration needed or if ready to ship
+   - Mark Critic todo as completed
+
+3. **Iteration Decision**
+   - If Critic approves: Move to final documentation
+   - If Critic requests changes: Start new Creator round
+   - Continue until consensus OR 100 rounds maximum
+   - Each round gets unique number and timestamp
+
+4. **Documentation & Commit**
+   - Update code with design decision comments
+   - Commit with detailed methodology message
+   - Update CLAUDE.md with any process improvements
+   - Continue iterating
+
+### Concurrent Research Requirements
+- **Modern CSS Theories**: Maintain active document `docs/MODERN_CSS_THEORIES.md` 
+- **Bleeding Edge Techniques**: Document patterns for positioning/styling without abstractions
+- **DOM Minimalism**: Notice and validate hypotheses about effective minimal DOM usage
+- **No Hallucination**: Only document actually observed patterns and validated techniques
 
 ### Implementation Guidelines
 - **Separate note-taking**: Creator notes in `notes/creator/`, Critic notes in `notes/critic/`
 - **Timestamped iterations**: Each round numbered and dated for tracking
 - **Screenshot progression**: Visual documentation in `design-progression/screenshots/`
-- **Code documentation**: Final design decisions documented in CSS comments and HTML
-- **Commit after each phase**: Detailed commit messages capture the methodology
+- **Code documentation**: Design decisions in CSS comments and HTML
+- **Frequent commits**: After each phase with detailed methodology messages
+- **CLAUDE.md updates**: Keep this file current with process refinements
 
-### Benefits
-- **Balanced perspective**: Creative vision + practical constraints
-- **Quality assurance**: Built-in review process catches issues early
-- **Decision transparency**: Why choices were made is preserved
-- **Iterative improvement**: Natural progression toward optimal solutions
+### Termination Conditions
+- Both Creator and Critic agree on final design
+- OR 100 iteration rounds completed
+- OR user explicitly stops the process
 
-### Example Usage
-See the magical tool bubble designs (Round 1) for a complete example of this methodology in action. The process transformed boring JSON tool outputs into exciting, eye-inspired magical experiences that celebrate AI capabilities.
+### Current Status Tracking
+- **Round 1**: Completed (Creator: magical tool bubbles, Critic: 5-star approval)
+- **Round 2**: Starting (Creator to iterate based on methodology expansion)
 
-## Claude Code Memories
+## Claude Code Memories & Research Requirements
 
-- Use context7 mcp whenever you see a new library being used in a project, in order to get the latest docs on how to use it.
+**CRITICAL**: Use context7 MCP for bleeding edge CSS techniques and modern web platform APIs. We are actively researching:
+
+### Required Context7 Lookups:
+- **CSS Container Queries** - For component-based responsive design
+- **CSS Cascade Layers (@layer)** - For organized specificity without abstractions  
+- **OKLCH Color Space** - For perceptually uniform color systems
+- **CSS Grid Level 2** - For advanced layout without frameworks
+- **CSS Subgrid** - For nested grid alignment patterns
+- **Modern Viewport Units** (dvh, svh, lvh) - For reliable full-height layouts
+- **color-mix() and Relative Color Syntax** - For dynamic color computations
+- **CSS :has() Selector** - For parent-based styling logic
+- **CSS Anchor Positioning** - For tooltip and overlay positioning
+- **Scroll-driven Animations** - For performance-conscious motion
+
+### Active Research Documents:
+- `docs/MODERN_CSS_THEORIES.md` - Bleeding edge CSS patterns and hypotheses
+- `notes/css-observations/` - Real-world pattern validation
+- DOM minimalism research ongoing
+
+### General Guidelines:
+- Use context7 mcp whenever encountering new libraries, frameworks, or web platform APIs
+- Focus on vanilla web platform capabilities over abstractions
+- Document all CSS patterns and validate hypotheses with real implementations
