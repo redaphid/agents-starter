@@ -96,7 +96,7 @@ OPENAI_API_KEY=your_openai_api_key
 
 ## Testing
 
-Tests use Vitest with Cloudflare's test utilities. Test files are in `tests/` directory and use the pattern `*.test.ts`.
+Tests use Vitest with Cloudflare's test utilities. Test files are in `tests/` directory and use the pattern `*.test.ts`. For comprehensive testing strategy including TDD practices and visual regression, see [docs/TESTING_STRATEGY.md](./docs/TESTING_STRATEGY.md).
 
 ### Playwright E2E Testing
 
@@ -138,11 +138,11 @@ npx playwright test --reporter=line
 
 ## Whimsy Guidelines
 
-This project follows thoughtful whimsy principles for enhanced developer experience. See [ON_WHIMSY.md](./ON_WHIMSY.md) for detailed guidelines on when and how to add narrative elements to code while maintaining clarity and professionalism.
+This project follows thoughtful whimsy principles for enhanced developer experience. See [docs/ON_WHIMSY.md](./docs/ON_WHIMSY.md) for detailed guidelines on when and how to add narrative elements to code while maintaining clarity and professionalism.
 
 ## No-Tailwind Migration
 
-The `no-nextjs` branch contains a migration from Tailwind CSS to simple CSS Grid/Flexbox layouts. See [NO_TAILWIND_MIGRATION.md](./NO_TAILWIND_MIGRATION.md) for:
+The `no-nextjs` branch contains a migration from Tailwind CSS to simple CSS Grid/Flexbox layouts. See [docs/NO_TAILWIND_MIGRATION.md](./docs/NO_TAILWIND_MIGRATION.md) for:
 - Detailed migration plan and rationale
 - CSS architecture without build-time processing
 - Observatory theme preservation strategies
