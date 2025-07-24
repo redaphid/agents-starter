@@ -274,6 +274,7 @@
 
   .input-area {
     display: flex;
+    align-items: flex-end;
     gap: var(--space-sm);
     padding: var(--space-md);
     background: 
@@ -295,26 +296,48 @@
 
   .message-input {
     flex: 1;
-    background: var(--opal-white);
-    border: 1px solid oklch(from var(--edge-violet) l calc(c * 0.1) h / 0.3);
-    border-radius: 12px;
+    width: 100%;
+    background: 
+      radial-gradient(circle at 10% 10%, var(--edge-violet), transparent 80%),
+      radial-gradient(circle at 90% 90%, var(--edge-cyan), transparent 80%),
+      var(--opal-white);
+    border: 2px solid oklch(from var(--edge-violet) l calc(c * 0.2) h / 0.4);
+    border-radius: 16px;
     color: var(--text);
     font-size: var(--text-base);
     font-family: inherit;
-    padding: 12px 16px;
-    resize: vertical;
-    min-height: 2.5rem;
-    max-height: 8rem;
+    padding: 16px 20px;
+    resize: none;
+    min-height: 54px;
+    max-height: 120px;
+    line-height: 1.5;
+    transition: all 300ms ease;
+    box-shadow: 
+      0 4px 16px oklch(from var(--bg-dark) l c h / 0.08),
+      inset 0 2px 0 oklch(from var(--opal-white) l c h / 0.8);
+    
+    /* Auto-growing behavior */
+    overflow-y: hidden;
+    overflow-x: hidden;
+    word-wrap: break-word;
     
     &::placeholder {
       color: var(--text-dim);
       font-style: italic;
+      opacity: 0.8;
     }
 
     &:focus {
       outline: none;
-      border-color: oklch(from var(--edge-cyan) l calc(c * 0.3) h / 0.5);
-      background: var(--opal-white);
+      border-color: oklch(from var(--edge-cyan) l calc(c * 0.5) h / 0.7);
+      background: 
+        radial-gradient(circle at 10% 10%, var(--edge-violet), transparent 75%),
+        radial-gradient(circle at 90% 90%, var(--edge-cyan), transparent 75%),
+        var(--opal-white);
+      box-shadow: 
+        0 6px 24px oklch(from var(--edge-cyan) l c h / 0.15),
+        inset 0 2px 0 oklch(from var(--opal-white) l c h / 0.9);
+      transform: translateY(-1px);
       position: relative;
     }
     
@@ -322,25 +345,27 @@
     &:focus::after {
       content: '';
       position: absolute;
-      inset: -3px;
+      inset: -4px;
       border-radius: inherit;
       background: 
         conic-gradient(from 0deg,
-          oklch(80% 0.25 0) 0deg,
-          oklch(80% 0.25 72) 72deg,
-          oklch(80% 0.25 144) 144deg,
-          oklch(80% 0.25 216) 216deg,
-          oklch(80% 0.25 288) 288deg,
-          oklch(80% 0.25 0) 360deg
+          oklch(75% 0.2 0) 0deg,
+          oklch(75% 0.2 60) 60deg,
+          oklch(75% 0.2 120) 120deg,
+          oklch(75% 0.2 180) 180deg,
+          oklch(75% 0.2 240) 240deg,
+          oklch(75% 0.2 300) 300deg,
+          oklch(75% 0.2 0) 360deg
         );
       z-index: -1;
-      animation: focusRing 2s linear infinite;
+      opacity: 0.6;
+      animation: focusRing 3s linear infinite;
     }
     
     @keyframes focusRing {
-      0% { transform: rotate(0deg); opacity: 0.4; }
-      50% { opacity: 0.7; }
-      100% { transform: rotate(360deg); opacity: 0.4; }
+      0% { transform: rotate(0deg); opacity: 0.3; }
+      50% { opacity: 0.6; }
+      100% { transform: rotate(360deg); opacity: 0.3; }
     }
   }
 
@@ -428,8 +453,27 @@
     text-shadow: 0 0 10px var(--glow-cyan);
   }
   
-  .text-retro-cyan { color: var(--accent-cyan); }
+  .text-retro-cyan { color: var(--edge-cyan); }
   .text-muted-foreground { color: var(--text-dim); }
+  
+  /* Header button alignment */
+  .header-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--edge-cyan);
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+  
+  .header-button:hover {
+    background: oklch(from var(--edge-cyan) l c h / 0.1);
+  }
   
   /* Card styles */
   .welcome-card {
@@ -506,10 +550,51 @@
   /* Message styles with opalescent design */
   .message {
     margin: var(--space-md) 0;
-    padding: var(--space-md);
+    padding: var(--space-lg);
     border-radius: 16px;
     position: relative;
     backdrop-filter: blur(10px);
+    
+    /* Typography improvements */
+    line-height: 1.6;
+    font-size: var(--text-base);
+  }
+  
+  /* Improved markdown styling within messages */
+  .message h1, .message h2, .message h3 {
+    margin: var(--space-md) 0 var(--space-sm) 0;
+    font-weight: 600;
+    color: var(--text);
+  }
+  
+  .message p {
+    margin: var(--space-sm) 0;
+    color: var(--text);
+  }
+  
+  .message code {
+    background: oklch(from var(--opal-white) calc(l - 0.05) c h);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.9em;
+  }
+  
+  .message pre {
+    background: oklch(from var(--opal-white) calc(l - 0.03) c h);
+    padding: var(--space-md);
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: var(--space-sm) 0;
+  }
+  
+  .message ul, .message ol {
+    margin: var(--space-sm) 0;
+    padding-left: var(--space-lg);
+  }
+  
+  .message li {
+    margin: var(--space-xs) 0;
   }
   
   .message-user {
@@ -560,9 +645,44 @@
     filter: drop-shadow(1px 0 2px oklch(from var(--edge-cyan) calc(l - 0.4) c h / 0.1));
   }
   
-  /* Input wrapper */
+  /* Input wrapper - clean layout */
   .input-wrapper {
     flex: 1;
-    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+  }
+  
+  /* Send button styling */
+  .send-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: 
+      radial-gradient(circle at 30% 30%, var(--edge-cyan), transparent 60%),
+      radial-gradient(circle at 70% 70%, var(--edge-violet), transparent 60%),
+      var(--opal-white);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 200ms ease;
+    box-shadow: 
+      0 2px 8px oklch(from var(--bg-dark) l c h / 0.1),
+      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.8);
+  }
+  
+  .send-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 
+      0 4px 12px oklch(from var(--bg-dark) l c h / 0.15),
+      inset 0 1px 0 oklch(from var(--opal-white) l c h / 0.9);
+  }
+  
+  .send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }

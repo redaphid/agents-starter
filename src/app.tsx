@@ -282,9 +282,10 @@ export default function Chat() {
               value={agentInput}
               onChange={(e) => {
                 handleAgentInputChange(e);
+                // Auto-resize textarea
                 e.target.style.height = "auto";
-                e.target.style.height = `${e.target.scrollHeight}px`;
-                setTextareaHeight(`${e.target.scrollHeight}px`);
+                e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                setTextareaHeight(`${Math.min(e.target.scrollHeight, 120)}px`);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -293,30 +294,28 @@ export default function Chat() {
                   setTextareaHeight("auto");
                 }
               }}
-              rows={2}
+              rows={1}
               style={{ height: textareaHeight }}
             />
-            <div className="absolute bottom-2 right-2">
-              {isLoading ? (
-                <button
-                  type="button"
-                  onClick={stop}
-                  className="send-button"
-                  aria-label="Stop generation"
-                >
-                  <Stop size={16} />
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="send-button"
-                  disabled={pendingToolCallConfirmation || !agentInput.trim()}
-                  aria-label="Send message"
-                >
-                  <PaperPlaneTilt size={16} />
-                </button>
-              )}
-            </div>
+            {isLoading ? (
+              <button
+                type="button"
+                onClick={stop}
+                className="send-button"
+                aria-label="Stop generation"
+              >
+                <Stop size={18} />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="send-button"
+                disabled={pendingToolCallConfirmation || !agentInput.trim()}
+                aria-label="Send message"
+              >
+                <PaperPlaneTilt size={18} />
+              </button>
+            )}
           </div>
         </form>
       </div>
